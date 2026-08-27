@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { SiteContent, PackageItem } from '../types';
+import { SiteContent, PackageItem, GalleryItem } from '../types';
 import { defaultSiteContent } from '../data/defaultContent';
 import { contentService } from '../services/api';
 
@@ -10,6 +10,10 @@ interface ContentContextType {
   resetContent: () => void;
   isAdminOpen: boolean;
   setIsAdminOpen: (open: boolean) => void;
+  isVisualEditMode: boolean;
+  setIsVisualEditMode: (mode: boolean) => void;
+  activeCmsTab: string;
+  setActiveCmsTab: (tab: string) => void;
   isAuthenticated: boolean;
   login: (password: string) => Promise<boolean>;
   logout: () => void;
@@ -17,7 +21,7 @@ interface ContentContextType {
   lastSyncedAt?: string;
 }
 
-const STORAGE_KEY = 'beauty_trap_site_content_v4';
+const STORAGE_KEY = 'beauty_trap_site_content_v5';
 const AUTH_KEY = 'beauty_trap_admin_auth';
 const PWD_KEY = 'beauty_trap_admin_pwd';
 const DEFAULT_PASSWORD = 'beautytrap2026';
@@ -51,6 +55,16 @@ export const sanitizeContent = (raw: any): SiteContent => {
         'Pink Lemonade & Welcome Drinks',
         'Karaoke & Music'
       ]
+    }));
+  };
+
+  const sanitizeGallery = (items: any[]): GalleryItem[] => {
+    if (!Array.isArray(items) || items.length === 0) return defaultSiteContent.gallery.items;
+    return items.map((g, idx) => ({
+      id: g.id || 'img-' + (idx + 1),
+      src: g.src || '/new_images/photo_1.jpeg',
+      category: g.category || 'bus',
+      caption: g.caption || 'Beauty Trap Luxury Experience'
     }));
   };
 
@@ -89,7 +103,8 @@ export const sanitizeContent = (raw: any): SiteContent => {
       areas: Array.isArray(raw.coverage?.areas) && raw.coverage.areas.length > 0
         ? raw.coverage.areas
         : defaultSiteContent.coverage.areas,
-      radiusInfo: raw.coverage?.radiusInfo || defaultSiteContent.coverage.radiusInfo
+      radiusInfo: raw.coverage?.radiusInfo || defaultSiteContent.coverage.radiusInfo,
+      mapImage: raw.coverage?.mapImage || defaultSiteContent.coverage.mapImage
     },
     testimonials: {
       scriptTitle: raw.testimonials?.scriptTitle || defaultSiteContent.testimonials.scriptTitle,
@@ -97,6 +112,12 @@ export const sanitizeContent = (raw: any): SiteContent => {
       items: Array.isArray(raw.testimonials?.items) && raw.testimonials.items.length > 0
         ? raw.testimonials.items
         : defaultSiteContent.testimonials.items
+    },
+    gallery: {
+      scriptTitle: raw.gallery?.scriptTitle || defaultSiteContent.gallery.scriptTitle,
+      mainTitle: raw.gallery?.mainTitle || defaultSiteContent.gallery.mainTitle,
+      subtitle: raw.gallery?.subtitle || defaultSiteContent.gallery.subtitle,
+      items: sanitizeGallery(raw.gallery?.items)
     }
   };
 };
@@ -117,6 +138,9 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   });
 
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isVisualEditMode, setIsVisualEditMode] = useState(false);
+  const [activeCmsTab, setActiveCmsTab] = useState('media');
+
   const [adminPassword, setAdminPassword] = useState<string>(() => {
     return localStorage.getItem(PWD_KEY) || DEFAULT_PASSWORD;
   });
@@ -165,6 +189,8 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const logout = () => {
     setIsAuthenticated(false);
+    setIsAdminOpen(false);
+    setIsVisualEditMode(false);
     sessionStorage.removeItem(AUTH_KEY);
   };
 
@@ -200,7 +226,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setIsSyncing(false);
 
     setLastSyncedAt(res.updatedAt || new Date().toISOString());
-    return { success: true, message: 'Changes saved successfully!' };
+    return { success: true, message: 'Changes saved live successfully!' };
   };
 
   const resetContent = () => {
@@ -218,6 +244,10 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         resetContent,
         isAdminOpen,
         setIsAdminOpen,
+        isVisualEditMode,
+        setIsVisualEditMode,
+        activeCmsTab,
+        setActiveCmsTab,
         isAuthenticated,
         login,
         logout,

@@ -30,6 +30,13 @@ export interface TestimonialItem {
   badge?: string;
 }
 
+export interface GalleryItem {
+  id: string;
+  src: string;
+  category: 'all' | 'makeup' | 'hair' | 'nails' | 'bus';
+  caption: string;
+}
+
 export interface SiteContent {
   phone: string;
   instagram: string;
@@ -58,10 +65,17 @@ export interface SiteContent {
     subtitle: string;
     areas: string[];
     radiusInfo: string;
+    mapImage: string;
   };
   testimonials: {
     scriptTitle: string;
     mainTitle: string;
     items: TestimonialItem[];
+  };
+  gallery: {
+    scriptTitle: string;
+    mainTitle: string;
+    subtitle: string;
+    items: GalleryItem[];
   };
 }

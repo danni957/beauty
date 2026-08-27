@@ -137,7 +137,8 @@ export const defaultSiteContent: SiteContent = {
       'Bedfordshire',
       'Oxfordshire'
     ],
-    radiusInfo: 'Covering 45 to 90 minutes radius including Romford, Croydon, Chelmsford, St Albans, Oxford, Stevenage, Guildford & surrounding areas.'
+    radiusInfo: 'Covering 45 to 90 minutes radius including Romford, Croydon, Chelmsford, St Albans, Oxford, Stevenage, Guildford & surrounding areas.',
+    mapImage: '/new_images/photo_10.jpeg'
   },
   testimonials: {
     scriptTitle: 'Real Client Love',
@@ -183,6 +184,29 @@ export const defaultSiteContent: SiteContent = {
         text: "We had the Pamper Bus for my daughter's 9th birthday, and it was absolutely fantastic! The team was professional, friendly, and made all of the children feel so special from start to finish.",
         badge: 'Luxury Experience'
       }
+    ]
+  },
+  gallery: {
+    scriptTitle: 'Inside The Magic',
+    mainTitle: 'Photo & Video Gallery',
+    subtitle: 'Step inside the UK’s most luxurious mobile pamper salon!',
+    items: [
+      { id: 'img-1', src: '/new_images/photo_1.jpeg', category: 'makeup', caption: 'Plouise Makeup Station & Glam Vanity' },
+      { id: 'img-2', src: '/new_images/photo_2.jpeg', category: 'makeup', caption: 'Luxury Makeup Brushes & Hollywood Mirror' },
+      { id: 'img-3', src: '/new_images/photo_3.jpeg', category: 'nails', caption: 'Velvet Pedicure & Spa Thrones' },
+      { id: 'img-4', src: '/new_images/photo_4.jpeg', category: 'makeup', caption: 'Signature Pink Lipsticks & Makeup Trays' },
+      { id: 'img-5', src: '/new_images/photo_5.jpeg', category: 'hair', caption: 'Hair Sparkles, Tinsel & Braiding Station' },
+      { id: 'img-6', src: '/new_images/photo_6.jpeg', category: 'bus', caption: 'The Full Beauty Trap Pamper Bus Exterior' },
+      { id: 'img-7', src: '/new_images/photo_7.jpeg', category: 'bus', caption: 'Pink Spa Robes & Headband Setup' },
+      { id: 'img-8', src: '/new_images/photo_8.jpeg', category: 'bus', caption: 'Pink Velvet Salon Seating & LED Party Ceiling' },
+      { id: 'img-9', src: '/new_images/photo_9.jpeg', category: 'bus', caption: 'Pamper Bus Golden Lights Experience' },
+      { id: 'img-10', src: '/new_images/photo_10.jpeg', category: 'bus', caption: 'Coverage & Location Area Map Flyer' },
+      { id: 'img-11', src: '/new_images/photo_11.jpeg', category: 'nails', caption: 'Sparkle Nail Bar & Polish Collection' },
+      { id: 'img-12', src: '/new_images/photo_12.jpeg', category: 'makeup', caption: 'Glitter & Face Gem Station' },
+      { id: 'img-13', src: '/new_images/photo_13.jpeg', category: 'hair', caption: 'Glam Hair Styling & Curls' },
+      { id: 'img-14', src: '/new_images/photo_14.jpeg', category: 'bus', caption: 'Pamper Bus Pink Carpet Entrance' },
+      { id: 'img-15', src: '/new_images/photo_15.jpeg', category: 'bus', caption: 'VIP Party Karaoke & Sound System' },
+      { id: 'img-16', src: '/new_images/photo_16.jpeg', category: 'bus', caption: 'Candy Floss & Pink Lemonade Welcome' }
     ]
   }
 };

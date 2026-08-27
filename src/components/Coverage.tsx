@@ -27,19 +27,19 @@ export const Coverage: React.FC = () => {
               {(coverage.areas || []).map((area, idx) => (
                 <div
                   key={idx}
-                  className="bg-gradient-to-b from-bt-pink-light/60 to-white dark:from-bt-dark-card dark:to-bt-dark-bg p-5 rounded-2xl border border-pink-200/80 shadow-sm hover:shadow-md transition-all text-center group"
+                  className="bg-gradient-to-b from-bt-pink-light/60 to-white dark:from-bt-dark-card dark:to-bt-dark-bg p-5 rounded-2xl border border-pink-200/80 dark:border-bt-dark-border shadow-sm hover:shadow-md transition-all text-center group"
                 >
-                  <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                     <i className="fas fa-map-marker-alt"></i>
                   </div>
-                  <h4 className="font-serif font-bold text-lg text-bt-black">{area}</h4>
+                  <h4 className="font-serif font-bold text-lg text-bt-black dark:text-white">{area}</h4>
                   <p className="text-[11px] text-gray-400 mt-1 uppercase tracking-wider">& Surrounds</p>
                 </div>
               ))}
             </div>
 
-            <div className="bg-gray-50 dark:bg-bt-dark-card p-6 dark:border-bt-dark-border rounded-2xl border border-gray-200/80">
-              <h4 className="font-serif font-bold text-base text-bt-black mb-2 flex items-center">
+            <div className="bg-gray-50 dark:bg-bt-dark-card p-6 rounded-2xl border border-gray-200/80 dark:border-bt-dark-border">
+              <h4 className="font-serif font-bold text-base text-bt-black dark:text-white mb-2 flex items-center">
                 <i className="fas fa-clock text-bt-gold mr-2"></i>
                 Travel Times & Radius:
               </h4>
@@ -53,7 +53,7 @@ export const Coverage: React.FC = () => {
                 href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent("Hi Dannii! Can you please let me know if you cover my postcode?")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-luxe bg-bt-black text-white px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest text-center shadow-lg hover:bg-bt-gold hover:text-bt-black transition-all"
+                className="btn-luxe bg-bt-black text-white dark:bg-bt-gold dark:text-bt-black px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest text-center shadow-lg hover:bg-bt-gold hover:text-bt-black transition-all"
               >
                 <i className="fab fa-whatsapp mr-2"></i> Check My Postcode
               </a>
@@ -61,9 +61,9 @@ export const Coverage: React.FC = () => {
           </div>
 
           <div className="lg:col-span-5">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white ring-2 ring-bt-gold/30">
+            <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-bt-dark-card ring-2 ring-bt-gold/30">
               <img
-                src="/new_images/photo_10.jpeg"
+                src={coverage.mapImage || '/new_images/photo_10.jpeg'}
                 alt="Beauty Trap Pamper Bus Coverage Map"
                 className="w-full h-full object-cover"
                 loading="lazy"

@@ -2,6 +2,7 @@ import React from 'react';
 import { ContentProvider } from './context/ContentContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
+import { VisualBuilderBar } from './components/Admin/VisualBuilderBar';
 import { Hero } from './components/Hero';
 import { Packages } from './components/Packages';
 import { Coverage } from './components/Coverage';
@@ -58,6 +59,7 @@ export function App() {
       <ThemeProvider>
         <ContentProvider>
           <div className="min-h-screen bg-white dark:bg-bt-dark-bg font-sans text-bt-text dark:text-gray-200 selection:bg-bt-pink-main selection:text-white transition-colors duration-300">
+            <VisualBuilderBar />
             <Navbar />
             <main>
               <Hero />
