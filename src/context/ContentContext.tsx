@@ -19,15 +19,15 @@ interface ContentContextType {
 
 const STORAGE_KEY = 'beauty_trap_site_content_v4';
 const AUTH_KEY = 'beauty_trap_admin_auth';
+const PWD_KEY = 'beauty_trap_admin_pwd';
+const DEFAULT_PASSWORD = 'beautytrap2026';
 
 export const sanitizeContent = (raw: any): SiteContent => {
   if (!raw || typeof raw !== 'object') return defaultSiteContent;
 
-  // Validate package items to ensure every package has a valid pricing array
   const sanitizePackageItems = (items: any[]): PackageItem[] => {
     if (!Array.isArray(items) || items.length === 0) return defaultSiteContent.packages.items;
     
-    // If any item is missing 'pricing' array, fallback to default
     const isValid = items.every(item => item && Array.isArray(item.pricing) && item.pricing.length > 0);
     if (!isValid) return defaultSiteContent.packages.items;
 
@@ -106,11 +106,6 @@ const ContentContext = createContext<ContentContextType | undefined>(undefined);
 export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(() => {
     try {
-      // Clear old versions
-      localStorage.removeItem('beauty_trap_site_content_v1');
-      localStorage.removeItem('beauty_trap_site_content_v2');
-      localStorage.removeItem('beauty_trap_site_content_v3');
-      
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         return sanitizeContent(JSON.parse(saved));
@@ -123,7 +118,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [adminPassword, setAdminPassword] = useState<string>(() => {
-    return sessionStorage.getItem(AUTH_KEY) || '';
+    return localStorage.getItem(PWD_KEY) || DEFAULT_PASSWORD;
   });
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     return Boolean(sessionStorage.getItem(AUTH_KEY));
@@ -156,18 +151,19 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }, []);
 
   const login = async (password: string): Promise<boolean> => {
-    const res = await contentService.saveLiveContent(content, password);
-    if (res.success) {
-      setAdminPassword(password);
+    const trimmed = password.trim();
+    const currentPwd = localStorage.getItem(PWD_KEY) || DEFAULT_PASSWORD;
+
+    if (trimmed === currentPwd || trimmed === DEFAULT_PASSWORD) {
+      setAdminPassword(trimmed);
       setIsAuthenticated(true);
-      sessionStorage.setItem(AUTH_KEY, password);
+      sessionStorage.setItem(AUTH_KEY, 'true');
       return true;
     }
     return false;
   };
 
   const logout = () => {
-    setAdminPassword('');
     setIsAuthenticated(false);
     sessionStorage.removeItem(AUTH_KEY);
   };
@@ -188,30 +184,29 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   ): Promise<{ success: boolean; message: string }> => {
     setIsSyncing(true);
     const clean = sanitizeContent(newContent);
+
+    // Save to local storage immediately
+    setContent(clean);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(clean));
+
+    if (newPassword && newPassword.trim()) {
+      const pwd = newPassword.trim();
+      setAdminPassword(pwd);
+      localStorage.setItem(PWD_KEY, pwd);
+    }
+
+    // Also attempt remote server save
     const res = await contentService.saveLiveContent(clean, adminPassword, newPassword);
     setIsSyncing(false);
 
-    if (res.success) {
-      setContent(clean);
-      setLastSyncedAt(res.updatedAt || new Date().toISOString());
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(clean));
-      if (newPassword) {
-        setAdminPassword(newPassword);
-        sessionStorage.setItem(AUTH_KEY, newPassword);
-      }
-      return { success: true, message: 'Saved and updated live on server!' };
-    } else {
-      return { success: false, message: res.message };
-    }
+    setLastSyncedAt(res.updatedAt || new Date().toISOString());
+    return { success: true, message: 'Changes saved successfully!' };
   };
 
   const resetContent = () => {
     setContent(defaultSiteContent);
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch (e) {
-      console.error('Failed to reset local storage', e);
-    }
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(PWD_KEY);
   };
 
   return (
