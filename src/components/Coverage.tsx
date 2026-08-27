@@ -27,7 +27,7 @@ export const Coverage: React.FC = () => {
               {(coverage.areas || []).map((area, idx) => (
                 <div
                   key={idx}
-                  className="bg-gradient-to-b from-bt-pink-light/60 to-white dark:from-bt-dark-card dark:to-bt-dark-bg p-5 rounded-2xl border border-pink-200/80 dark:border-bt-dark-border shadow-sm hover:shadow-md transition-all text-center group"
+                  className="bg-gradient-to-b from-bt-pink-light/60 to-white dark:from-[#211528] dark:to-[#170e1d] p-5 rounded-2xl border border-pink-200/80 dark:border-bt-dark-border shadow-sm hover:shadow-md transition-all text-center group"
                 >
                   <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                     <i className="fas fa-map-marker-alt"></i>
@@ -38,7 +38,7 @@ export const Coverage: React.FC = () => {
               ))}
             </div>
 
-            <div className="bg-gray-50 dark:bg-bt-dark-card p-6 rounded-2xl border border-gray-200/80 dark:border-bt-dark-border">
+            <div className="bg-gray-50 dark:bg-[#170e1d] p-6 rounded-2xl border border-gray-200/80 dark:border-bt-dark-border">
               <h4 className="font-serif font-bold text-base text-bt-black dark:text-white mb-2 flex items-center">
                 <i className="fas fa-clock text-bt-gold mr-2"></i>
                 Travel Times & Radius:
@@ -61,7 +61,7 @@ export const Coverage: React.FC = () => {
           </div>
 
           <div className="lg:col-span-5">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-bt-dark-card ring-2 ring-bt-gold/30">
+            <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-[#170e1d] ring-2 ring-bt-gold/30">
               <img
                 src={coverage.mapImage || '/new_images/photo_10.jpeg'}
                 alt="Beauty Trap Pamper Bus Coverage Map"

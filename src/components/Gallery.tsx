@@ -15,7 +15,7 @@ export const Gallery: React.FC = () => {
     : items.filter(item => item.category === activeFilter);
 
   return (
-    <section id="gallery" className="py-24 px-4 sm:px-6 bg-gradient-to-b from-white via-bt-pink-light/30 to-white dark:from-bt-dark-bg dark:via-bt-dark-card dark:to-bt-dark-bg relative transition-colors duration-300">
+    <section id="gallery" className="py-24 px-4 sm:px-6 bg-gradient-to-b from-white via-bt-pink-light/30 to-white dark:from-bt-dark-bg dark:via-[#130b17] dark:to-bt-dark-bg relative transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12 fade-up">
@@ -36,7 +36,7 @@ export const Gallery: React.FC = () => {
               className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
                 activeFilter === 'all'
                   ? 'bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black shadow-md'
-                  : 'bg-white dark:bg-bt-dark-card text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
+                  : 'bg-white dark:bg-[#1a111e] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
               }`}
             >
               All Photos ({items.length})
@@ -46,7 +46,7 @@ export const Gallery: React.FC = () => {
               className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
                 activeFilter === 'bus'
                   ? 'bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black shadow-md'
-                  : 'bg-white dark:bg-bt-dark-card text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
+                  : 'bg-white dark:bg-[#1a111e] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
               }`}
             >
               Bus & Interior
@@ -56,7 +56,7 @@ export const Gallery: React.FC = () => {
               className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
                 activeFilter === 'makeup'
                   ? 'bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black shadow-md'
-                  : 'bg-white dark:bg-bt-dark-card text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
+                  : 'bg-white dark:bg-[#1a111e] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
               }`}
             >
               Makeup & Glam
@@ -66,7 +66,7 @@ export const Gallery: React.FC = () => {
               className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
                 activeFilter === 'nails'
                   ? 'bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black shadow-md'
-                  : 'bg-white dark:bg-bt-dark-card text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
+                  : 'bg-white dark:bg-[#1a111e] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
               }`}
             >
               Nails & Spa
@@ -76,7 +76,7 @@ export const Gallery: React.FC = () => {
               className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
                 activeFilter === 'hair'
                   ? 'bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black shadow-md'
-                  : 'bg-white dark:bg-bt-dark-card text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
+                  : 'bg-white dark:bg-[#1a111e] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-bt-dark-border'
               }`}
             >
               Hair Styling
@@ -90,7 +90,7 @@ export const Gallery: React.FC = () => {
             <figure
               key={item.id}
               onClick={() => setSelectedImage(item)}
-              className="pamper-gallery-card group relative overflow-hidden rounded-3xl border border-pink-200/60 dark:border-bt-dark-border shadow-md hover:shadow-2xl transition-all duration-300 bg-white dark:bg-bt-dark-card cursor-pointer"
+              className="pamper-gallery-card group relative overflow-hidden rounded-3xl border border-pink-200/60 dark:border-bt-dark-border shadow-md hover:shadow-2xl dark:shadow-[0_10px_25px_rgba(0,0,0,0.5)] transition-all duration-300 bg-white dark:bg-[#170e1d] cursor-pointer"
             >
               <div className="aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-900 relative">
                 <img
@@ -100,12 +100,12 @@ export const Gallery: React.FC = () => {
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="bg-white/90 dark:bg-bt-dark-card/90 text-bt-black dark:text-white p-3 rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                  <span className="bg-white/90 dark:bg-[#1a111e]/90 text-bt-black dark:text-white p-3 rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
                     <ZoomIn className="w-5 h-5" />
                   </span>
                 </div>
               </div>
-              <div className="p-5 bg-white dark:bg-bt-dark-card">
+              <div className="p-5 bg-white dark:bg-[#170e1d]">
                 <h4 className="font-serif font-bold text-base text-bt-black dark:text-white group-hover:text-bt-gold transition-colors">
                   {item.caption}
                 </h4>

@@ -39,11 +39,11 @@ Please confirm availability and booking details!`;
   };
 
   return (
-    <section id="contact" className="py-24 bg-bt-black text-white text-center relative overflow-hidden">
+    <section id="contact" className="py-24 bg-bt-black dark:bg-[#0c080e] text-white text-center relative overflow-hidden border-t border-gray-900 dark:border-bt-dark-border">
       <div className="max-w-3xl mx-auto px-4 relative z-10">
         <div className="mb-10">
           <span className="font-script text-3xl text-bt-gold block">Get In Touch</span>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold mb-3 mt-1">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold mb-3 mt-1 text-white">
             Book Your Pamper Party Today!
           </h2>
           <p className="text-gray-300 text-sm sm:text-base">
@@ -54,7 +54,7 @@ Please confirm availability and booking details!`;
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 text-left bg-gray-950/80 p-6 sm:p-10 rounded-3xl border border-gray-800 shadow-2xl">
+        <form onSubmit={handleSubmit} className="space-y-4 text-left bg-gray-950/80 dark:bg-[#140d18] p-6 sm:p-10 rounded-3xl border border-gray-800 dark:border-bt-gold/30 shadow-2xl">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1">Parent's Name *</label>
@@ -64,7 +64,7 @@ Please confirm availability and booking details!`;
                 value={formData.parentName}
                 onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
                 placeholder="Your Name"
-                className="w-full bg-gray-900 text-white rounded-xl p-3.5 text-sm border border-gray-800 focus:border-bt-gold focus:outline-none"
+                className="w-full bg-gray-900 dark:bg-[#1c1221] text-white rounded-xl p-3.5 text-sm border border-gray-800 dark:border-gray-700 focus:border-bt-gold focus:outline-none"
               />
             </div>
             <div>
@@ -75,7 +75,7 @@ Please confirm availability and booking details!`;
                 value={formData.phoneContact}
                 onChange={(e) => setFormData({ ...formData, phoneContact: e.target.value })}
                 placeholder="e.g. 07123 456789"
-                className="w-full bg-gray-900 text-white rounded-xl p-3.5 text-sm border border-gray-800 focus:border-bt-gold focus:outline-none"
+                className="w-full bg-gray-900 dark:bg-[#1c1221] text-white rounded-xl p-3.5 text-sm border border-gray-800 dark:border-gray-700 focus:border-bt-gold focus:outline-none"
               />
             </div>
           </div>
@@ -89,7 +89,7 @@ Please confirm availability and booking details!`;
                 value={formData.postcode}
                 onChange={(e) => setFormData({ ...formData, postcode: e.target.value })}
                 placeholder="e.g. CM1 or London"
-                className="w-full bg-gray-900 text-white rounded-xl p-3.5 text-sm border border-gray-800 focus:border-bt-gold focus:outline-none"
+                className="w-full bg-gray-900 dark:bg-[#1c1221] text-white rounded-xl p-3.5 text-sm border border-gray-800 dark:border-gray-700 focus:border-bt-gold focus:outline-none"
               />
             </div>
             <div>
@@ -98,7 +98,7 @@ Please confirm availability and booking details!`;
                 type="date"
                 value={formData.eventDate}
                 onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
-                className="w-full bg-gray-900 text-white rounded-xl p-3.5 text-sm border border-gray-800 focus:border-bt-gold focus:outline-none"
+                className="w-full bg-gray-900 dark:bg-[#1c1221] text-white rounded-xl p-3.5 text-sm border border-gray-800 dark:border-gray-700 focus:border-bt-gold focus:outline-none"
               />
             </div>
           </div>
@@ -109,7 +109,7 @@ Please confirm availability and booking details!`;
               <select
                 value={formData.package}
                 onChange={(e) => setFormData({ ...formData, package: e.target.value })}
-                className="w-full bg-gray-900 text-white rounded-xl p-3.5 text-sm border border-gray-800 focus:border-bt-gold focus:outline-none"
+                className="w-full bg-gray-900 dark:bg-[#1c1221] text-white rounded-xl p-3.5 text-sm border border-gray-800 dark:border-gray-700 focus:border-bt-gold focus:outline-none"
               >
                 {(packages.items || []).map((pkg) => (
                   <option key={pkg.id} value={pkg.name}>
@@ -123,7 +123,7 @@ Please confirm availability and booking details!`;
               <select
                 value={formData.guestCount}
                 onChange={(e) => setFormData({ ...formData, guestCount: e.target.value })}
-                className="w-full bg-gray-900 text-white rounded-xl p-3.5 text-sm border border-gray-800 focus:border-bt-gold focus:outline-none"
+                className="w-full bg-gray-900 dark:bg-[#1c1221] text-white rounded-xl p-3.5 text-sm border border-gray-800 dark:border-gray-700 focus:border-bt-gold focus:outline-none"
               >
                 <option value="6 People">6 People</option>
                 <option value="8 People">8 People</option>
@@ -141,7 +141,7 @@ Please confirm availability and booking details!`;
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="Child's name & age, preferred time, theme or questions..."
-              className="w-full bg-gray-900 text-white rounded-xl p-3.5 text-sm border border-gray-800 focus:border-bt-gold focus:outline-none"
+              className="w-full bg-gray-900 dark:bg-[#1c1221] text-white rounded-xl p-3.5 text-sm border border-gray-800 dark:border-gray-700 focus:border-bt-gold focus:outline-none"
             ></textarea>
           </div>
 
@@ -153,7 +153,7 @@ Please confirm availability and booking details!`;
           </button>
         </form>
 
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
+        <div className="mt-12 pt-8 border-t border-gray-800 dark:border-gray-800 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
           <a
             href={`https://wa.me/${String(phone).replace(/[^0-9]/g, '')}`}
             target="_blank"
