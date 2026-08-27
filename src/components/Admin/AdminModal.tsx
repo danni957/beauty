@@ -53,17 +53,47 @@ export const AdminModal: React.FC = () => {
     setFormData(content);
   }, [content, isAdminOpen]);
 
+  const [failedAttempts, setFailedAttempts] = useState<number>(() => {
+    return parseInt(sessionStorage.getItem('bt_login_fails') || '0', 10);
+  });
+  const [lockoutUntil, setLockoutUntil] = useState<number>(() => {
+    return parseInt(sessionStorage.getItem('bt_lockout_until') || '0', 10);
+  });
+
   if (!isAdminOpen) return null;
 
-  // Handle Login
+  // Handle Login with Brute-Force Rate Limiting
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(false);
+
+    const now = Date.now();
+    if (lockoutUntil && now < lockoutUntil) {
+      const remainingMins = Math.ceil((lockoutUntil - now) / 60000);
+      alert(`Security Lockout: Too many failed attempts. Please try again in ${remainingMins} minute(s).`);
+      return;
+    }
+
     const success = await login(passwordInput);
     if (!success) {
-      setLoginError(true);
+      const newFails = failedAttempts + 1;
+      setFailedAttempts(newFails);
+      sessionStorage.setItem('bt_login_fails', String(newFails));
+
+      if (newFails >= 5) {
+        const lockTime = Date.now() + 15 * 60 * 1000; // 15 mins lock
+        setLockoutUntil(lockTime);
+        sessionStorage.setItem('bt_lockout_until', String(lockTime));
+        alert('Security Alert: 5 incorrect password attempts. Portal locked for 15 minutes.');
+      } else {
+        setLoginError(true);
+      }
     } else {
       setPasswordInput('');
+      setFailedAttempts(0);
+      setLockoutUntil(0);
+      sessionStorage.removeItem('bt_login_fails');
+      sessionStorage.removeItem('bt_lockout_until');
     }
   };
 
