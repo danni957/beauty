@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
@@ -10,6 +11,9 @@ export default {
         'bt-gold-light': '#f3e5ab',
         'bt-black': '#1a1a1a',
         'bt-text': '#4a4a4a',
+        'bt-dark-bg': '#0f0a10',
+        'bt-dark-card': '#1a121d',
+        'bt-dark-border': '#2e1f33',
       },
       fontFamily: {
         serif: ['"Playfair Display"', 'serif'],

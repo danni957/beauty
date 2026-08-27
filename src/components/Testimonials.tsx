@@ -6,13 +6,13 @@ export const Testimonials: React.FC = () => {
   const testimonials = content.testimonials;
 
   return (
-    <section id="reviews" className="py-24 bg-gradient-to-b from-white via-bt-pink-light/30 to-white relative">
+    <section id="reviews" className="py-24 bg-gradient-to-b from-white via-bt-pink-light/30 to-white dark:from-bt-dark-bg dark:via-bt-dark-card dark:to-bt-dark-bg relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16 fade-up">
           <span className="font-script text-3xl sm:text-4xl text-bt-gold block">
             {testimonials.scriptTitle}
           </span>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-bt-black mt-2 mb-4">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-bt-black dark:text-white mt-2 mb-4">
             {testimonials.mainTitle}
           </h2>
           <div className="flex justify-center items-center space-x-1 text-bt-gold text-xl mb-2">
@@ -29,7 +29,7 @@ export const Testimonials: React.FC = () => {
             return (
               <div
                 key={rev.id}
-                className="bg-white rounded-3xl p-8 shadow-xl border border-pink-100/80 hover:shadow-2xl transition-all relative flex flex-col justify-between"
+                className="bg-white dark:bg-bt-dark-card rounded-3xl p-8 dark:border-bt-dark-border shadow-xl border border-pink-100/80 hover:shadow-2xl transition-all relative flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -49,7 +49,7 @@ export const Testimonials: React.FC = () => {
                     </div>
                   </div>
 
-                  <p className="text-gray-700 italic text-base sm:text-lg leading-relaxed mb-6">
+                  <p className="text-gray-700 dark:text-gray-200 italic text-base sm:text-lg leading-relaxed mb-6">
                     "{rev.text}"
                   </p>
                 </div>

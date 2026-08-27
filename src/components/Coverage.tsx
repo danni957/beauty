@@ -7,16 +7,16 @@ export const Coverage: React.FC = () => {
   const cleanPhone = String(content.phone || '+447511693329').replace(/[^0-9]/g, '');
 
   return (
-    <section id="coverage" className="py-24 bg-white relative overflow-hidden">
+    <section id="coverage" className="py-24 bg-white dark:bg-bt-dark-bg relative overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16 fade-up">
           <span className="font-script text-3xl sm:text-4xl text-bt-gold block">
             We Come To You!
           </span>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-bt-black mt-2 mb-4">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-bt-black dark:text-white mt-2 mb-4">
             {coverage.title}
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-base">
+          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-base">
             {coverage.subtitle}
           </p>
         </div>
@@ -27,7 +27,7 @@ export const Coverage: React.FC = () => {
               {(coverage.areas || []).map((area, idx) => (
                 <div
                   key={idx}
-                  className="bg-gradient-to-b from-bt-pink-light/60 to-white p-5 rounded-2xl border border-pink-200/80 shadow-sm hover:shadow-md transition-all text-center group"
+                  className="bg-gradient-to-b from-bt-pink-light/60 to-white dark:from-bt-dark-card dark:to-bt-dark-bg p-5 rounded-2xl border border-pink-200/80 shadow-sm hover:shadow-md transition-all text-center group"
                 >
                   <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                     <i className="fas fa-map-marker-alt"></i>
@@ -38,12 +38,12 @@ export const Coverage: React.FC = () => {
               ))}
             </div>
 
-            <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200/80">
+            <div className="bg-gray-50 dark:bg-bt-dark-card p-6 dark:border-bt-dark-border rounded-2xl border border-gray-200/80">
               <h4 className="font-serif font-bold text-base text-bt-black mb-2 flex items-center">
                 <i className="fas fa-clock text-bt-gold mr-2"></i>
                 Travel Times & Radius:
               </h4>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                 {coverage.radiusInfo}
               </p>
             </div>

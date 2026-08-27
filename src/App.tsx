@@ -1,5 +1,6 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React from 'react';
 import { ContentProvider } from './context/ContentContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Packages } from './components/Packages';
@@ -10,43 +11,40 @@ import { BookingForm } from './components/BookingForm';
 import { Footer } from './components/Footer';
 import { AdminModal } from './components/Admin/AdminModal';
 
-interface Props {
-  children: ReactNode;
-}
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error: any }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
 
-interface State {
-  hasError: boolean;
-  error?: Error;
-}
-
-class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false
-  };
-
-  public static getDerivedStateFromError(error: Error): State {
+  static getDerivedStateFromError(error: any) {
     return { hasError: true, error };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Uncaught error:', error, errorInfo);
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error('Beauty Trap Application Error:', error, errorInfo);
   }
 
-  public render() {
+  render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-bt-pink-light text-center">
-          <h2 className="text-2xl font-bold font-serif text-bt-black mb-3">Something went wrong</h2>
-          <p className="text-gray-600 mb-6 max-w-md">{this.state.error?.message}</p>
-          <button
-            onClick={() => {
-              localStorage.clear();
-              window.location.reload();
-            }}
-            className="bg-bt-gold text-bt-black font-bold uppercase px-6 py-3 rounded shadow hover:bg-yellow-400 text-xs tracking-wider"
-          >
-            Reset Cache & Reload
-          </button>
+        <div className="min-h-screen bg-pink-50 flex items-center justify-center p-4">
+          <div className="bg-white p-8 rounded-3xl shadow-xl max-w-lg w-full text-center border-2 border-pink-200">
+            <div className="w-16 h-16 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+              ✨
+            </div>
+            <h2 className="text-2xl font-serif font-bold text-gray-800 mb-2">The Beauty Trap Pamper Bus</h2>
+            <p className="text-sm text-gray-600 mb-6">Updating luxury party experience...</p>
+            <button
+              onClick={() => {
+                localStorage.clear();
+                window.location.reload();
+              }}
+              className="bg-bt-black text-white px-6 py-3 rounded-xl font-bold uppercase tracking-wider text-xs hover:bg-bt-gold transition-all"
+            >
+              Refresh Site
+            </button>
+          </div>
         </div>
       );
     }
@@ -57,21 +55,23 @@ class ErrorBoundary extends Component<Props, State> {
 export function App() {
   return (
     <ErrorBoundary>
-      <ContentProvider>
-        <div className="min-h-screen bg-white font-sans text-bt-text selection:bg-bt-pink-main selection:text-white">
-          <Navbar />
-          <main>
-            <Hero />
-            <Packages />
-            <Coverage />
-            <Testimonials />
-            <Gallery />
-            <BookingForm />
-          </main>
-          <Footer />
-          <AdminModal />
-        </div>
-      </ContentProvider>
+      <ThemeProvider>
+        <ContentProvider>
+          <div className="min-h-screen bg-white dark:bg-bt-dark-bg font-sans text-bt-text dark:text-gray-200 selection:bg-bt-pink-main selection:text-white transition-colors duration-300">
+            <Navbar />
+            <main>
+              <Hero />
+              <Packages />
+              <Coverage />
+              <Testimonials />
+              <Gallery />
+              <BookingForm />
+            </main>
+            <Footer />
+            <AdminModal />
+          </div>
+        </ContentProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }
