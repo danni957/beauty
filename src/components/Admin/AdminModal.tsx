@@ -533,18 +533,81 @@ export const AdminModal: React.FC = () => {
                   />
                 </div>
 
-                <div className="bg-pink-50 dark:bg-bt-dark-card p-4 rounded-2xl border border-pink-200 dark:border-bt-dark-border">
-                  <label className="block text-xs font-bold uppercase text-gray-700 dark:text-gray-300 mb-1">
-                    Hero Video File / URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.hero.videoUrl}
-                    onChange={(e) =>
-                      setFormData({ ...formData, hero: { ...formData.hero, videoUrl: e.target.value } })
-                    }
-                    className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-xl p-3 text-sm mb-2"
-                  />
+                <div className="bg-pink-50 dark:bg-bt-dark-card p-5 rounded-2xl border border-pink-200 dark:border-bt-dark-border space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="block text-xs font-bold uppercase text-gray-700 dark:text-gray-200 mb-0.5">
+                        🎥 Hero Video Banner
+                      </label>
+                      <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                        Upload a video from your phone/computer or paste a video link.
+                      </p>
+                    </div>
+                    <label className="cursor-pointer bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow hover:opacity-95">
+                      <Upload className="w-4 h-4" /> Upload Video File
+                      <input
+                        type="file"
+                        accept="video/mp4,video/webm,video/quicktime"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const reader = new FileReader();
+                          reader.onload = () => {
+                            if (typeof reader.result === 'string') {
+                              setFormData({
+                                ...formData,
+                                hero: { ...formData.hero, videoUrl: reader.result }
+                              });
+                            }
+                          };
+                          reader.readAsDataURL(file);
+                        }}
+                      />
+                    </label>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-gray-400 mb-1">
+                      Video URL / File Path:
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.hero.videoUrl}
+                      onChange={(e) =>
+                        setFormData({ ...formData, hero: { ...formData.hero, videoUrl: e.target.value } })
+                      }
+                      placeholder="e.g. /pamper_bus_video.mp4 or https://..."
+                      className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-xl p-3 text-xs"
+                    />
+                  </div>
+
+                  {/* Live Video Preview in CMS */}
+                  <div className="rounded-xl overflow-hidden bg-black border border-gray-300 dark:border-gray-700 aspect-video max-w-sm mx-auto relative shadow-inner">
+                    <video
+                      key={formData.hero.videoUrl}
+                      src={formData.hero.videoUrl}
+                      controls
+                      playsInline
+                      muted
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData({
+                          ...formData,
+                          hero: { ...formData.hero, videoUrl: '/pamper_bus_video.mp4' }
+                        })
+                      }
+                      className="text-[11px] text-gray-500 hover:text-bt-gold underline"
+                    >
+                      Reset to Default Bus Video
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
