@@ -5,9 +5,11 @@ import { Navbar } from './components/Navbar';
 import { VisualBuilderBar } from './components/Admin/VisualBuilderBar';
 import { Hero } from './components/Hero';
 import { Packages } from './components/Packages';
+import { PartyCalculator } from './components/PartyCalculator';
 import { Coverage } from './components/Coverage';
 import { Testimonials } from './components/Testimonials';
 import { Gallery } from './components/Gallery';
+import { FAQ } from './components/FAQ';
 import { BookingForm } from './components/BookingForm';
 import { Footer } from './components/Footer';
 import { AdminModal } from './components/Admin/AdminModal';
@@ -64,9 +66,11 @@ export function App() {
             <main>
               <Hero />
               <Packages />
+              <PartyCalculator />
               <Coverage />
               <Testimonials />
               <Gallery />
+              <FAQ />
               <BookingForm />
             </main>
             <Footer />

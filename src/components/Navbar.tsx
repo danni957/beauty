@@ -34,12 +34,14 @@ export const Navbar: React.FC = () => {
           </span>
         </a>
 
-        <nav className="hidden md:flex items-center space-x-7 text-xs font-bold uppercase tracking-widest text-bt-text dark:text-gray-300">
+        <nav className="hidden lg:flex items-center space-x-6 text-[11px] font-bold uppercase tracking-widest text-bt-text dark:text-gray-300">
           <a href="#home" className="hover:text-bt-gold transition-colors">Home</a>
           <a href="#packages" className="hover:text-bt-gold transition-colors">Packages</a>
+          <a href="#calculator" className="hover:text-bt-gold transition-colors">Calculator</a>
           <a href="#coverage" className="hover:text-bt-gold transition-colors">Areas Covered</a>
           <a href="#reviews" className="hover:text-bt-gold transition-colors">Reviews</a>
           <a href="#gallery" className="hover:text-bt-gold transition-colors">Gallery</a>
+          <a href="#faq" className="hover:text-bt-gold transition-colors">FAQ</a>
           <a href="#contact" className="hover:text-bt-gold transition-colors">Book Now</a>
         </nav>
 
@@ -63,7 +65,7 @@ export const Navbar: React.FC = () => {
           </a>
         </div>
 
-        <div className="flex items-center space-x-2 md:hidden">
+        <div className="flex items-center space-x-2 lg:hidden">
           <ThemeToggle />
           <button
             onClick={() => setIsAdminOpen(true)}
@@ -83,12 +85,14 @@ export const Navbar: React.FC = () => {
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white dark:bg-bt-dark-card border-b border-gray-100 dark:border-bt-dark-border px-6 py-5 shadow-xl space-y-4 text-center">
+        <div className="lg:hidden bg-white dark:bg-bt-dark-card border-b border-gray-100 dark:border-bt-dark-border px-6 py-5 shadow-xl space-y-4 text-center">
           <a href="#home" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-bold uppercase tracking-widest text-bt-text dark:text-gray-200 hover:text-bt-gold">Home</a>
           <a href="#packages" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-bold uppercase tracking-widest text-bt-text dark:text-gray-200 hover:text-bt-gold">Packages</a>
+          <a href="#calculator" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-bold uppercase tracking-widest text-bt-text dark:text-gray-200 hover:text-bt-gold">Party Calculator</a>
           <a href="#coverage" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-bold uppercase tracking-widest text-bt-text dark:text-gray-200 hover:text-bt-gold">Areas Covered</a>
           <a href="#reviews" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-bold uppercase tracking-widest text-bt-text dark:text-gray-200 hover:text-bt-gold">Reviews</a>
           <a href="#gallery" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-bold uppercase tracking-widest text-bt-text dark:text-gray-200 hover:text-bt-gold">Gallery</a>
+          <a href="#faq" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-bold uppercase tracking-widest text-bt-text dark:text-gray-200 hover:text-bt-gold">FAQ</a>
           <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-bold uppercase tracking-widest text-bt-text dark:text-gray-200 hover:text-bt-gold">Book Now</a>
           <a
             href={whatsappLink}
