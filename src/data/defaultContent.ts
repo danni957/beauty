@@ -1,0 +1,188 @@
+import { SiteContent } from '../types';
+
+export const defaultSiteContent: SiteContent = {
+  phone: '+447511693329',
+  instagram: 'beautytrappamperbus',
+  email: 'Danielletheo84@gmail.com',
+  depositText: '£100 Deposit Secures Your Party Date!',
+  hero: {
+    badge: 'THE ULTIMATE PAMPER PARTY EXPERIENCE ON WHEELS!',
+    titleLine1: 'The',
+    titleHighlight: 'Beauty Trap',
+    titleLine2: 'Pamper Bus',
+    subtitle: "Children's Parties • Hen Parties • Weddings • Private Functions",
+    description: "Welcome to the Beauty Trap Pamper Bus! We bring the glamour, the gold, and the glitter straight to your doorstep across London, Essex, Surrey, Herts, Beds & Oxfordshire.",
+    videoUrl: '/pamper_bus_video.mp4'
+  },
+  packages: {
+    scriptTitle: 'Choose Your Luxury',
+    mainTitle: 'Children’s Pamper Packages',
+    subtitle: 'Full bus hire, luxury treatments, sparkle and fun for your guests!',
+    items: [
+      {
+        id: 'bronze-package',
+        name: 'Bronze Package',
+        treatmentsCount: '2 Treatments',
+        borderClass: 'border-[#cd7f32]',
+        icon: 'fas fa-award text-[#cd7f32]',
+        pricing: [
+          { guests: '6 People', price: '£375' },
+          { guests: '8 People', price: '£450' },
+          { guests: '10 People', price: '£500' },
+          { guests: '12 People', price: '£575' }
+        ],
+        features: [
+          'Choose Any 2 Treatments per guest',
+          'Full Luxury Pamper Bus Hire',
+          'Pink Spa Robes & Spa Headbands',
+          'Pink Lemonade & Welcome Drinks',
+          'Candy Floss & Pink Carpet Entrance',
+          'Karaoke & Music System'
+        ]
+      },
+      {
+        id: 'silver-package',
+        name: 'Silver Package',
+        treatmentsCount: '3 Treatments',
+        popular: true,
+        borderClass: 'border-slate-400',
+        tagColor: 'bg-bt-pink-main text-white',
+        icon: 'fas fa-gem text-slate-400',
+        pricing: [
+          { guests: '6 People', price: '£475' },
+          { guests: '8 People', price: '£500' },
+          { guests: '10 People', price: '£550' },
+          { guests: '12 People', price: '£625' }
+        ],
+        features: [
+          'Choose Any 3 Treatments per guest',
+          'Full Luxury Pamper Bus Hire',
+          'Pink Spa Robes & Spa Headbands',
+          'Pink Lemonade & Welcome Drinks',
+          'Candy Floss & Pink Carpet Entrance',
+          'Karaoke & Music System'
+        ]
+      },
+      {
+        id: 'gold-package',
+        name: 'Gold Package',
+        treatmentsCount: '4 Treatments',
+        popular: false,
+        borderClass: 'border-bt-gold',
+        tagColor: 'bg-bt-gold text-bt-black',
+        icon: 'fas fa-crown text-bt-gold',
+        pricing: [
+          { guests: '6 People', price: '£625' },
+          { guests: '8 People', price: '£675' },
+          { guests: '10 People', price: '£700' },
+          { guests: '12 People', price: '£750' }
+        ],
+        features: [
+          'Choose Any 4 Treatments per guest',
+          'Full Luxury VIP Pamper Bus Hire',
+          'Pink Spa Robes & Spa Headbands',
+          'Pink Lemonade & Welcome Drinks',
+          'Candy Floss & Pink Carpet Entrance',
+          'Karaoke & Music System'
+        ]
+      }
+    ],
+    treatmentCategories: [
+      {
+        title: 'Nails',
+        icon: 'fas fa-hand-sparkles text-pink-500',
+        items: ['Manicures', 'Pedicures', 'Nail Painting']
+      },
+      {
+        title: 'Make-Up & Glam',
+        icon: 'fas fa-magic text-bt-gold',
+        items: ['Make-Up', 'Mini Makeovers', 'Festival Make-Up', 'Face Gems', 'Party Lashes']
+      },
+      {
+        title: 'Hair',
+        icon: 'fas fa-wand-magic-sparkles text-purple-500',
+        items: ['Hair Braiding', 'Hair Tinsel', 'Hair Curling', 'Hair Straightening']
+      },
+      {
+        title: 'Spa Treatments',
+        icon: 'fas fa-spa text-green-500',
+        items: ['Face Masks', 'Hand Massage', 'Foot Massage']
+      }
+    ],
+    extraTreatments13Plus: [
+      'Brow Wax & Tint',
+      'LVL Lash Lift',
+      'Strip or Cluster Lashes',
+      'Full Make-Up',
+      'Hair Toning / Straightening'
+    ],
+    partyIncludes: [
+      'Pink Spa Robes',
+      'Spa Headbands',
+      'Pink Lemonade & Welcome Drinks',
+      'Candy Floss',
+      'Pink Carpet Entrance',
+      'Karaoke',
+      'Music & Surround Sound'
+    ]
+  },
+  coverage: {
+    title: 'We Come To You! We Cover It All!',
+    subtitle: 'Bringing the ultimate pamper party experience right to your doorstep',
+    areas: [
+      'London',
+      'Essex',
+      'Surrey',
+      'Hertfordshire',
+      'Bedfordshire',
+      'Oxfordshire'
+    ],
+    radiusInfo: 'Covering 45 to 90 minutes radius including Romford, Croydon, Chelmsford, St Albans, Oxford, Stevenage, Guildford & surrounding areas.'
+  },
+  testimonials: {
+    scriptTitle: 'Real Client Love',
+    mainTitle: '5-Star Reviews & Experiences',
+    items: [
+      {
+        id: 'rev-1',
+        initials: 'AY',
+        package: 'Gold Trap Package with Dannii',
+        rating: 5,
+        text: "We had the Pamper Bus for my daughter's 9th birthday, and it was absolutely fantastic! The team was professional, friendly, and made all of the children feel so special from start to finish.",
+        badge: 'Making Memories That Last A Lifetime'
+      },
+      {
+        id: 'rev-2',
+        initials: 'SK',
+        package: 'Silver Trap Package with Dannii',
+        rating: 5,
+        text: "Professional, friendly, entertaining team, great communication and accommodating. My daughter and her friends celebrated her 10th birthday and they absolutely loved the treatments, singing and dancing. I would definitely recommend booking the Beauty Trap Pamper Bus!",
+        badge: 'Sing, Dance & Celebrate'
+      },
+      {
+        id: 'rev-3',
+        initials: 'ES',
+        package: 'Silver Trap Package with Dannii',
+        rating: 5,
+        text: "We booked the pamper bus for my daughter's celebration and it was perfect! The service was outstanding, nothing was too much trouble. Dannii and the rest of the team were incredible and so kind, friendly and wonderfully patient with all the children. Every single treatment was done beautifully and the girls had the best time. Thank you so much!",
+        badge: 'Truly Special'
+      },
+      {
+        id: 'rev-4',
+        initials: 'AB',
+        package: 'Bronze Trap Package with Dannii',
+        rating: 5,
+        text: "Great experience for my daughter's birthday, the bus was super impressive and the team were super friendly and great with the girls would definitely recommend!",
+        badge: 'Stress Free for Parents'
+      },
+      {
+        id: 'rev-5',
+        initials: 'LP',
+        package: 'Silver Trap Package with Dannii',
+        rating: 5,
+        text: "We had the Pamper Bus for my daughter's 9th birthday, and it was absolutely fantastic! The team was professional, friendly, and made all of the children feel so special from start to finish.",
+        badge: 'Luxury Experience'
+      }
+    ]
+  }
+};

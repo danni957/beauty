@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <link rel="icon" type="image/jpeg" href="/pamperbus_owner.jpeg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- SEO METADATA -->
@@ -14,199 +14,21 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://patnerj.github.io/beauty-trap-pamper-bus/">
+    <meta property="og:url" content="https://beautytrappamperbus.com/">
     <meta property="og:title" content="Beauty Trap | The Ultimate Kids Pamper Party on Wheels">
     <meta property="og:description" content="Book the most luxurious pamper bus in the UK! Manicures, karaoke, and red carpet entrance. We come to you!">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:image" content="/pamperbus_owner.jpeg">
 
-    <!-- Schema Markup -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Beauty Trap Pamper Bus",
-      "image": "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "telephone": "+447895692868",
-      "email": "Danielletheo84@gmail.com",
-      "url": "https://www.beautytrappamperbus.com/",
-      "priceRange": "£370 - £800",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "UK"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "51.5074",
-        "longitude": "0.1278"
-      },
-      "areaServed": "United Kingdom",
-      "description": "Luxury mobile pamper bus service for children's parties across the UK."
-    }
-    </script>
-    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Quicksand:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom Tailwind Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'bt-pink-light': '#fff0f5',
-                        'bt-pink-main': '#ffc1e3',
-                        'bt-gold': '#d4af37',
-                        'bt-gold-light': '#f3e5ab',
-                        'bt-black': '#1a1a1a',
-                        'bt-text': '#4a4a4a',
-                    },
-                    fontFamily: {
-                        serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Quicksand"', 'sans-serif'],
-                        script: ['"Great Vibes"', 'cursive'],
-                    },
-                    backgroundImage: {
-                        'shimmer': "linear-gradient(45deg, rgba(212, 175, 55, 0.1) 25%, transparent 25%, transparent 50%, rgba(212, 175, 55, 0.1) 50%, rgba(212, 175, 55, 0.1) 75%, transparent 75%, transparent)"
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        html { scroll-behavior: smooth; scroll-padding-top: 100px; }
-        .fade-up { animation: fadeUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px); }
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .btn-luxe {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid #d4af37;
-        }
-        .btn-luxe::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
-        }
-        .btn-luxe:hover::after {
-            left: 100%;
-        }
-        .img-frame {
-            border: 2px solid #d4af37;
-            padding: 12px;
-            background: white;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        .circle-image-container {
-            overflow: hidden;
-            border-radius: 50%;
-            border: 8px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.5s ease;
-        }
-        .circle-image-container:hover {
-            transform: scale(1.05);
-            border-color: #ffc1e3;
-        }
-        .circle-image {
-            transition: transform 0.7s ease;
-        }
-        .circle-image-container:hover .circle-image {
-            transform: scale(1.1);
-        }
-        .pamper-gallery-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1rem;
-            border: 2px solid #f3e5ab;
-            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.2);
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
-            background: #fff;
-        }
-        .pamper-gallery-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 18px 35px rgba(212, 175, 55, 0.35);
-        }
-        .pamper-gallery-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            aspect-ratio: 4 / 3;
-            transition: transform 0.45s ease, filter 0.45s ease;
-        }
-        .pamper-gallery-card:hover .pamper-gallery-image {
-            transform: scale(1.08);
-            filter: saturate(1.08);
-        }
-        .pamper-video {
-            width: 100%;
-            max-width: 420px;
-            aspect-ratio: 9 / 16;
-            object-fit: cover;
-            border-radius: 1.25rem;
-            border: 3px solid #f3e5ab;
-            box-shadow: 0 18px 40px rgba(212, 175, 55, 0.25);
-        }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #fff0f5; }
-        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
-    </style>
-</head>
-<body class="font-sans text-bt-text bg-white">
-  <section class="py-16 px-6 sm:px-10 bg-gradient-to-b from-bt-pink-light to-white">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-12 fade-up">
-        <p class="font-script text-4xl text-bt-gold">Beauty Trap</p>
-        <h2 class="font-serif text-3xl sm:text-4xl text-bt-black mt-2">Pamper Bus Experience</h2>
-        <p class="max-w-2xl mx-auto mt-4 text-lg text-bt-text">
-          Step inside our luxury pink and gold pamper paradise, where glam stations, sparkle and celebration come together for an unforgettable day.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
-        <figure class="pamper-gallery-card fade-up delay-100">
-          <img src="./pamperbus_owner.jpeg" alt="Beauty Trap pamper bus owner inside the luxury setup" class="pamper-gallery-image" loading="lazy">
-        </figure>
-        <figure class="pamper-gallery-card fade-up delay-200">
-          <img src="./pamperbus_place.jpeg" alt="Pamper bus party area with pink and gold decor" class="pamper-gallery-image" loading="lazy">
-        </figure>
-        <figure class="pamper-gallery-card fade-up delay-100">
-          <img src="./pamperbus_view.jpeg" alt="Exterior view of the Beauty Trap pamper bus" class="pamper-gallery-image" loading="lazy">
-        </figure>
-        <figure class="pamper-gallery-card fade-up delay-200">
-          <img src="./pampering_childs.jpeg" alt="Children enjoying pampering experience on the bus" class="pamper-gallery-image" loading="lazy">
-        </figure>
-        <figure class="pamper-gallery-card sm:col-span-2 lg:col-span-1 fade-up delay-100">
-          <img src="./pamperbus pamphalet.jpeg" alt="Beauty Trap pamper bus pamphlet details" class="pamper-gallery-image" loading="lazy">
-        </figure>
-      </div>
-
-      <div class="mt-12 flex justify-center fade-up delay-200">
-        <video class="pamper-video" autoplay muted loop playsinline controls aria-label="Beauty Trap pamper bus tour video">
-          <source src="./pamper_bus_video.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-  </section>
-  <div id="root"></div>
-  <script type="module" src="./src/main.tsx"></script>
-</body>
+  </head>
+  <body class="font-sans text-bt-text bg-white selection:bg-bt-pink-main selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
