@@ -14,7 +14,23 @@ export const PartyCalculator: React.FC = () => {
   ];
 
   // Available add-ons from dynamic CMS
-  const availableAddons = addons && addons.length > 0 ? addons : [];
+  const availableAddons = addons && addons.length > 0 ? addons : [
+    {
+      id: 'custom-robes',
+      name: 'Personalised Name Embroidered Silk Robes',
+      price: 10.50,
+      perGuest: true,
+      desc: 'Keepsake luxury pink silk robes with each child’s name to take home',
+      icon: '🎀'
+    },
+    {
+      id: 'deluxe-tiara',
+      name: 'Birthday Girl Deluxe 24k Gold Tiara & Silk Sash',
+      price: 20,
+      desc: 'Royal crowning ceremony for the birthday VIP princess',
+      icon: '👑'
+    }
+  ];
 
   // State
   const [selectedPkgIndex, setSelectedPkgIndex] = useState(1);
@@ -37,12 +53,13 @@ export const PartyCalculator: React.FC = () => {
   const addonsTotal = selectedAddons.reduce((sum, addonId) => {
     const item = availableAddons.find(a => a.id === addonId);
     if (!item) return sum;
-    return sum + (item.perGuest ? Number(item.price) * guestCountNum : Number(item.price));
+    const itemCost = item.perGuest ? Number(item.price) * guestCountNum : Number(item.price);
+    return sum + itemCost;
   }, 0);
 
-  const grandTotal = basePriceNum + addonsTotal;
+  const grandTotal = Math.round((basePriceNum + addonsTotal) * 100) / 100;
   const deposit = 100;
-  const balanceDue = grandTotal - deposit;
+  const balanceDue = Math.round((grandTotal - deposit) * 100) / 100;
 
   // Toggle Add-on
   const toggleAddon = (id: string) => {
@@ -70,11 +87,18 @@ export const PartyCalculator: React.FC = () => {
     }
   };
 
+  // Format GBP
+  const formatGBP = (num: number) => {
+    return num % 1 === 0 ? `£${num}` : `£${num.toFixed(2)}`;
+  };
+
   // Handle WhatsApp Booking with Full Summary
   const handleWhatsAppBooking = () => {
     const chosenAddonNames = selectedAddons.map(id => {
       const a = availableAddons.find(item => item.id === id);
-      return a ? `• ${a.name} (+${a.perGuest ? '£' + (Number(a.price) * guestCountNum) : '£' + a.price})` : '';
+      if (!a) return '';
+      const cost = a.perGuest ? Number(a.price) * guestCountNum : Number(a.price);
+      return `• ${a.name} (+${formatGBP(cost)}${a.perGuest ? ` @ ${formatGBP(Number(a.price))}/child` : ''})`;
     }).filter(Boolean).join('\n');
 
     const msg = `Hi Dannii! I used your online Party Calculator and would like to check availability:
@@ -86,7 +110,7 @@ export const PartyCalculator: React.FC = () => {
 📍 Postcode: ${postcode || 'Standard London / Essex'}
 
 ${chosenAddonNames ? `✨ Selected VIP Add-ons:\n${chosenAddonNames}\n` : ''}
-💰 Total Price: £${grandTotal} (£100 Deposit + £${balanceDue} On Party Day)
+💰 Total Price: ${formatGBP(grandTotal)} (£100 Deposit + ${formatGBP(balanceDue)} On Party Day)
 
 Can you please confirm if this date & time slot is available?`;
 
@@ -195,7 +219,7 @@ Can you please confirm if this date & time slot is available?`;
               </div>
             </div>
 
-            {/* Step 4: Optional VIP Add-ons (Dynamic from CMS) */}
+            {/* Step 4: Optional VIP Add-ons (Dannii's Approved Selection) */}
             {availableAddons.length > 0 && (
               <div className="pt-2 border-t border-pink-100 dark:border-gray-800">
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-300 mb-3 flex items-center gap-1.5">
@@ -204,9 +228,10 @@ Can you please confirm if this date & time slot is available?`;
                 <div className="space-y-2.5">
                   {availableAddons.map((addon) => {
                     const isChecked = selectedAddons.includes(addon.id);
+                    const costNum = addon.perGuest ? Number(addon.price) * guestCountNum : Number(addon.price);
                     const priceLabel = addon.perGuest
-                      ? `+£${Number(addon.price) * guestCountNum} (£${addon.price}/child)`
-                      : `+£${addon.price}`;
+                      ? `+${formatGBP(costNum)} (${formatGBP(Number(addon.price))}/child)`
+                      : `+${formatGBP(costNum)}`;
 
                     return (
                       <div
@@ -309,7 +334,7 @@ Can you please confirm if this date & time slot is available?`;
                 {selectedAddons.length > 0 && (
                   <div className="flex justify-between text-gray-300">
                     <span>VIP Add-ons ({selectedAddons.length}):</span>
-                    <span className="font-bold text-yellow-300">+£{addonsTotal}</span>
+                    <span className="font-bold text-yellow-300">+{formatGBP(addonsTotal)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-gray-300 pt-2 border-t border-gray-800">
@@ -318,7 +343,7 @@ Can you please confirm if this date & time slot is available?`;
                 </div>
                 <div className="flex justify-between text-gray-300">
                   <span>Balance on Party Day:</span>
-                  <span className="font-bold text-white">£{balanceDue}</span>
+                  <span className="font-bold text-white">{formatGBP(balanceDue)}</span>
                 </div>
               </div>
 
@@ -329,7 +354,7 @@ Can you please confirm if this date & time slot is available?`;
                     <span className="text-[11px] text-gray-400">Everything Included</span>
                   </div>
                   <span className="font-serif text-4xl sm:text-5xl font-bold text-bt-gold">
-                    £{grandTotal}
+                    {formatGBP(grandTotal)}
                   </span>
                 </div>
               </div>

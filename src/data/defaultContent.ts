@@ -127,41 +127,20 @@ export const defaultContent: SiteContent = {
     ]
   },
 
-  addons: [
-    {
-      id: 'candy-floss',
-      name: 'Pink Candy Floss Cart & Fresh Sticks',
-      price: 45,
-      desc: 'All-you-can-eat fresh pink spun sugar during party',
-      icon: '🍬'
-    },
+    addons: [
     {
       id: 'custom-robes',
       name: 'Personalised Name Embroidered Silk Robes',
-      price: 15,
+      price: 10.50,
       perGuest: true,
-      desc: 'Keepsake pink silk robes with each child’s name',
+      desc: 'Keepsake luxury pink silk robes with each child’s name to take home',
       icon: '🎀'
-    },
-    {
-      id: 'polaroid-album',
-      name: 'Instant Polaroid Photo Keepsake Album',
-      price: 35,
-      desc: 'Glitter photo album filled with printed snaps on the day',
-      icon: '📸'
-    },
-    {
-      id: 'mocktail-fountain',
-      name: 'Illuminated LED Mocktail Fountain & Gold Flutes',
-      price: 40,
-      desc: 'Sparkling pink lemonade fountain with champagne glasses',
-      icon: '🍹'
     },
     {
       id: 'deluxe-tiara',
       name: 'Birthday Girl Deluxe 24k Gold Tiara & Silk Sash',
       price: 20,
-      desc: 'Royal crowning ceremony for the birthday VIP',
+      desc: 'Royal crowning ceremony for the birthday VIP princess',
       icon: '👑'
     }
   ],
