@@ -61,12 +61,15 @@ export const Coverage: React.FC = () => {
           </div>
 
           <div className="lg:col-span-5">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-[#170e1d] ring-2 ring-bt-gold/30">
+            <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-[#170e1d] ring-2 ring-bt-gold/30 bg-pink-100 dark:bg-[#1a111e]">
               <img
                 src={coverage.mapImage || '/new_images/photo_10.jpeg'}
                 alt="Beauty Trap Pamper Bus Coverage Map"
-                className="w-full h-full object-cover"
+                width="700"
+                height="700"
                 loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>

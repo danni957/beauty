@@ -92,12 +92,15 @@ export const Gallery: React.FC = () => {
               onClick={() => setSelectedImage(item)}
               className="pamper-gallery-card group relative overflow-hidden rounded-3xl border border-pink-200/60 dark:border-bt-dark-border shadow-md hover:shadow-2xl dark:shadow-[0_10px_25px_rgba(0,0,0,0.5)] transition-all duration-300 bg-white dark:bg-[#170e1d] cursor-pointer"
             >
-              <div className="aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-900 relative">
+              <div className="aspect-[4/3] overflow-hidden bg-gradient-to-tr from-pink-100 to-pink-50 dark:from-gray-900 dark:to-[#1a111e] relative">
                 <img
                   src={item.src}
                   alt={item.caption}
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                  width="600"
+                  height="450"
                   loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <span className="bg-white/90 dark:bg-[#1a111e]/90 text-bt-black dark:text-white p-3 rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
