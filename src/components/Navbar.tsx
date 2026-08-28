@@ -45,52 +45,58 @@ export const Navbar: React.FC = () => {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2 text-[11px] font-bold uppercase tracking-wider text-bt-text dark:text-gray-200">
+          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-1.5 text-[11px] font-bold uppercase tracking-wider text-bt-text dark:text-gray-200">
             <a
               href="#home"
-              className="px-3 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
+              className="px-2.5 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
             >
               Home
             </a>
             <a
               href="#packages"
-              className="px-3 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
+              className="px-2.5 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
             >
               Packages
             </a>
             <a
               href="#calculator"
-              className="px-3 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
+              className="px-2.5 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
             >
               Calculator
             </a>
             <a
-              href="#coverage"
-              className="px-3 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
+              href="#invitations"
+              className="px-2.5 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
             >
-              Areas Covered
+              Invitations
+            </a>
+            <a
+              href="#coverage"
+              className="px-2.5 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
+            >
+              Areas
             </a>
             <a
               href="#reviews"
-              className="px-3 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
+              className="px-2.5 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
             >
               Reviews
             </a>
             <a
               href="#gallery"
-              className="px-3 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
+              className="px-2.5 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
             >
               Gallery
             </a>
             <a
               href="#faq"
-              className="px-3 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
+              className="px-2.5 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
             >
               FAQ
             </a>
             <a
               href="#contact"
-              className="px-3 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
+              className="px-2.5 py-1.5 rounded-full hover:bg-bt-pink-light/70 dark:hover:bg-white/10 hover:text-bt-gold transition-all"
             >
               Book Now
             </a>

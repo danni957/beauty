@@ -1,25 +1,94 @@
 import React, { useState } from 'react';
 import { useContent } from '../context/ContentContext';
-import { Calculator, Sparkles, MapPin, CheckCircle, ArrowRight, MessageCircle } from 'lucide-react';
+import { Sparkles, MapPin, CheckCircle, ArrowRight, MessageCircle, Clock, Calendar, Gift, Check } from 'lucide-react';
+
+interface AddOn {
+  id: string;
+  name: string;
+  price: number;
+  perGuest?: boolean;
+  desc: string;
+  icon: string;
+}
 
 export const PartyCalculator: React.FC = () => {
   const { content } = useContent();
   const { phone, packages } = content;
 
-  // Pricing Matrix from Client
+  // State
   const [selectedPkgIndex, setSelectedPkgIndex] = useState(1); // Default Silver (Most Popular)
   const [selectedGuests, setSelectedGuests] = useState('8'); // 6, 8, 10, 12
+  const [selectedSlot, setSelectedSlot] = useState('☀️ Afternoon Glam (2:30 PM - 4:30 PM)');
+  const [partyDate, setPartyDate] = useState('');
   const [postcode, setPostcode] = useState('');
   const [postcodeStatus, setPostcodeStatus] = useState<'idle' | 'covered' | 'extended'>('idle');
+  const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
 
   const pkgList = packages?.items || [];
   const currentPkg = pkgList[selectedPkgIndex] || pkgList[0];
 
-  // Calculate live price
+  // Add-ons list
+  const availableAddons: AddOn[] = [
+    {
+      id: 'candy-floss',
+      name: 'Pink Candy Floss Cart & Fresh Sticks',
+      price: 45,
+      desc: 'All-you-can-eat fresh pink spun sugar during party',
+      icon: '🍬'
+    },
+    {
+      id: 'custom-robes',
+      name: 'Personalised Name Embroidered Silk Robes',
+      price: 15,
+      perGuest: true,
+      desc: 'Keepsake pink silk robes with each child’s name',
+      icon: '🎀'
+    },
+    {
+      id: 'polaroid-album',
+      name: 'Instant Polaroid Photo Keepsake Album',
+      price: 35,
+      desc: 'Glitter photo album filled with printed snaps on the day',
+      icon: '📸'
+    },
+    {
+      id: 'mocktail-fountain',
+      name: 'Illuminated LED Mocktail Fountain & Gold Flutes',
+      price: 40,
+      desc: 'Sparkling pink lemonade fountain with champagne glasses',
+      icon: '🍹'
+    },
+    {
+      id: 'deluxe-tiara',
+      name: 'Birthday Girl Deluxe 24k Gold Tiara & Silk Sash',
+      price: 20,
+      desc: 'Royal crowning ceremony for the birthday VIP',
+      icon: '👑'
+    }
+  ];
+
+  // Calculate Base Price
   const tier = currentPkg?.pricing?.find(p => p.guests.includes(selectedGuests)) || currentPkg?.pricing?.[1];
   const basePriceNum = parseInt(tier?.price?.replace(/[^0-9]/g, '') || '500', 10);
+
+  // Calculate Add-ons Price
+  const guestCountNum = parseInt(selectedGuests, 10) || 8;
+  const addonsTotal = selectedAddons.reduce((sum, addonId) => {
+    const item = availableAddons.find(a => a.id === addonId);
+    if (!item) return sum;
+    return sum + (item.perGuest ? item.price * guestCountNum : item.price);
+  }, 0);
+
+  const grandTotal = basePriceNum + addonsTotal;
   const deposit = 100;
-  const balanceDue = basePriceNum - deposit;
+  const balanceDue = grandTotal - deposit;
+
+  // Toggle Add-on
+  const toggleAddon = (id: string) => {
+    setSelectedAddons(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
 
   // Postcode verification
   const checkPostcode = (code: string) => {
@@ -30,7 +99,6 @@ export const PartyCalculator: React.FC = () => {
       return;
     }
 
-    // Common London, Essex, Surrey, Herts, Beds, Oxfordshire prefix match
     const primaryPrefixes = ['RM', 'IG', 'CM', 'SS', 'CO', 'E', 'EC', 'WC', 'N', 'NW', 'SE', 'SW', 'W', 'CR', 'BR', 'DA', 'WD', 'AL', 'EN', 'SG', 'LU', 'MK', 'OX', 'GU', 'KT', 'SM', 'TW', 'UB', 'HA'];
     const matched = primaryPrefixes.some(prefix => clean.startsWith(prefix));
 
@@ -41,32 +109,42 @@ export const PartyCalculator: React.FC = () => {
     }
   };
 
+  // Handle WhatsApp Booking with Full Summary
   const handleWhatsAppBooking = () => {
-    const msg = `Hi Dannii! I used the online Party Calculator and would like to check availability:
+    const chosenAddonNames = selectedAddons.map(id => {
+      const a = availableAddons.find(item => item.id === id);
+      return a ? `• ${a.name} (+${a.perGuest ? '£' + (a.price * guestCountNum) : '£' + a.price})` : '';
+    }).filter(Boolean).join('\n');
 
-Selected Package: ${currentPkg?.name} (${currentPkg?.treatmentsCount})
-Guests: ${selectedGuests} People
-Total Estimated Price: £${basePriceNum} (£100 Deposit + £${balanceDue} On Party Day)
-${postcode ? `Postcode: ${postcode}` : ''}
+    const msg = `Hi Dannii! I used your online Party Calculator and would like to check availability:
 
-Can you please let me know your available dates?`;
+👑 Selected Package: ${currentPkg?.name} (${currentPkg?.treatmentsCount})
+👥 Guests: ${selectedGuests} People
+🗓️ Preferred Date: ${partyDate || 'To be confirmed'}
+⏰ Preferred Slot: ${selectedSlot}
+📍 Postcode: ${postcode || 'Standard London / Essex'}
+
+${chosenAddonNames ? `✨ Selected VIP Add-ons:\n${chosenAddonNames}\n` : ''}
+💰 Total Price: £${grandTotal} (£100 Deposit + £${balanceDue} On Party Day)
+
+Can you please confirm if this date & time slot is available?`;
 
     const cleanPhone = String(phone || '+447511693329').replace(/[^0-9]/g, '');
     window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   return (
-    <section id="calculator" className="py-20 px-4 sm:px-6 bg-white dark:bg-bt-dark-bg relative transition-colors duration-300">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12 fade-up">
+    <section id="calculator" className="py-24 px-4 sm:px-6 bg-white dark:bg-bt-dark-bg relative transition-colors duration-300">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-14 fade-up">
           <span className="font-script text-3xl sm:text-4xl text-bt-gold block">
-            Instant Estimate
+            Customise & Quote
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-bt-black dark:text-white mt-2">
-            Party Price & Travel Calculator
+            Interactive Party & Add-on Calculator
           </h2>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-sm sm:text-base mt-2">
-            Select your package and guest count below to generate an instant transparent quote!
+            Pick your package, preferred time slot, guest count and optional VIP upgrades to see an instant transparent estimate!
           </p>
         </div>
 
@@ -86,7 +164,7 @@ Can you please let me know your available dates?`;
                     onClick={() => setSelectedPkgIndex(idx)}
                     className={`p-3.5 rounded-2xl border text-center transition-all flex flex-col items-center justify-between ${
                       selectedPkgIndex === idx
-                        ? 'bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black border-bt-black dark:border-bt-gold shadow-lg scale-102'
+                        ? 'bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black border-bt-black dark:border-bt-gold shadow-lg scale-102 ring-2 ring-bt-gold/40'
                         : 'bg-white dark:bg-[#23172b] text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:border-bt-gold/60'
                     }`}
                   >
@@ -120,10 +198,96 @@ Can you please let me know your available dates?`;
               </div>
             </div>
 
-            {/* Step 3: Postcode Radius Checker */}
+            {/* Step 3: Date & Preferred Time Slot (Feature 3) */}
+            <div className="pt-2 border-t border-pink-100 dark:border-gray-800">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-300 mb-3 flex items-center gap-1.5">
+                <Clock className="w-4 h-4 text-bt-gold" /> Step 3: Preferred Date & Time Slot
+              </label>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="date"
+                      value={partyDate}
+                      onChange={(e) => setPartyDate(e.target.value)}
+                      className="w-full bg-white dark:bg-[#23172b] border border-gray-300 dark:border-gray-700 text-bt-black dark:text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm focus:border-bt-gold focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {[
+                    '🌅 Morning Sparkle (11:00 AM - 1:00 PM)',
+                    '☀️ Afternoon Glam (2:30 PM - 4:30 PM)',
+                    '🌆 Twilight VIP Glow (5:30 PM - 7:30 PM)'
+                  ].map((slot) => (
+                    <button
+                      key={slot}
+                      type="button"
+                      onClick={() => setSelectedSlot(slot)}
+                      className={`p-2.5 rounded-xl border text-[11px] font-bold text-center transition-all ${
+                        selectedSlot === slot
+                          ? 'bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black border-bt-black dark:border-bt-gold shadow-md'
+                          : 'bg-white dark:bg-[#23172b] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-bt-gold/50'
+                      }`}
+                    >
+                      {slot}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Step 4: Optional VIP Add-ons (Feature 1) */}
+            <div className="pt-2 border-t border-pink-100 dark:border-gray-800">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-300 mb-3 flex items-center gap-1.5">
+                <Gift className="w-4 h-4 text-bt-gold" /> Step 4: Optional VIP Party Add-ons
+              </label>
+              <div className="space-y-2.5">
+                {availableAddons.map((addon) => {
+                  const isChecked = selectedAddons.includes(addon.id);
+                  const priceLabel = addon.perGuest
+                    ? `+£${addon.price * guestCountNum} (£${addon.price}/child)`
+                    : `+£${addon.price}`;
+
+                  return (
+                    <div
+                      key={addon.id}
+                      onClick={() => toggleAddon(addon.id)}
+                      className={`p-3 sm:p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                        isChecked
+                          ? 'bg-pink-50 dark:bg-pink-950/40 border-pink-400 dark:border-pink-700 shadow-sm'
+                          : 'bg-white dark:bg-[#23172b] border-gray-200 dark:border-gray-700 hover:border-pink-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold border transition-colors ${
+                          isChecked
+                            ? 'bg-pink-500 text-white border-pink-500'
+                            : 'border-gray-300 dark:border-gray-600 text-transparent'
+                        }`}>
+                          <Check className="w-3.5 h-3.5" />
+                        </div>
+                        <div>
+                          <p className="text-xs sm:text-sm font-bold text-bt-black dark:text-white flex items-center gap-1.5">
+                            <span>{addon.icon}</span> {addon.name}
+                          </p>
+                          <p className="text-[11px] text-gray-500 dark:text-gray-400">{addon.desc}</p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold text-bt-gold flex-shrink-0 bg-white dark:bg-gray-800 px-2.5 py-1 rounded-full border border-bt-gold/30">
+                        {priceLabel}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Step 5: Postcode Radius Checker */}
             <div className="pt-2 border-t border-pink-100 dark:border-gray-800">
               <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-300 mb-2 flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-bt-gold" /> Step 3: Check Your Postcode / Area
+                <MapPin className="w-4 h-4 text-bt-gold" /> Step 5: Check Postcode / Area
               </label>
               <div className="flex gap-2">
                 <input
@@ -173,7 +337,23 @@ Can you please let me know your available dates?`;
                   <span>Party Guests:</span>
                   <span className="font-bold text-white">{selectedGuests} Guests</span>
                 </div>
-                <div className="flex justify-between text-gray-300">
+                {partyDate && (
+                  <div className="flex justify-between text-gray-300">
+                    <span>Party Date:</span>
+                    <span className="font-bold text-white">{partyDate}</span>
+                  </div>
+                )}
+                <div className="flex justify-between text-gray-300 text-xs">
+                  <span>Time Slot:</span>
+                  <span className="font-medium text-pink-300 truncate max-w-[180px]">{selectedSlot}</span>
+                </div>
+                {selectedAddons.length > 0 && (
+                  <div className="flex justify-between text-gray-300">
+                    <span>VIP Add-ons ({selectedAddons.length}):</span>
+                    <span className="font-bold text-yellow-300">+£{addonsTotal}</span>
+                  </div>
+                )}
+                <div className="flex justify-between text-gray-300 pt-2 border-t border-gray-800">
                   <span>Deposit to Secure:</span>
                   <span className="font-bold text-green-400">£100</span>
                 </div>
@@ -190,7 +370,7 @@ Can you please let me know your available dates?`;
                     <span className="text-[11px] text-gray-400">Everything Included</span>
                   </div>
                   <span className="font-serif text-4xl sm:text-5xl font-bold text-bt-gold">
-                    £{basePriceNum}
+                    £{grandTotal}
                   </span>
                 </div>
               </div>

@@ -6,6 +6,8 @@ import { VisualBuilderBar } from './components/Admin/VisualBuilderBar';
 import { Hero } from './components/Hero';
 import { Packages } from './components/Packages';
 import { PartyCalculator } from './components/PartyCalculator';
+import { InstagramShowcase } from './components/InstagramShowcase';
+import { InvitationGenerator } from './components/InvitationGenerator';
 import { Coverage } from './components/Coverage';
 import { Testimonials } from './components/Testimonials';
 import { Gallery } from './components/Gallery';
@@ -67,7 +69,9 @@ export function App() {
               <Hero />
               <Packages />
               <PartyCalculator />
+              <InstagramShowcase />
               <Coverage />
+              <InvitationGenerator />
               <Testimonials />
               <Gallery />
               <FAQ />
