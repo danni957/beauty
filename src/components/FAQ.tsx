@@ -1,40 +1,12 @@
 import React, { useState } from 'react';
-import { ChevronDown, HelpCircle, Sparkles } from 'lucide-react';
-
-interface FAQItem {
-  question: string;
-  answer: string;
-}
+import { useContent } from '../context/ContentContext';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 
 export const FAQ: React.FC = () => {
+  const { content } = useContent();
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
-  const faqs: FAQItem[] = [
-    {
-      question: "How much space is needed to park the Beauty Trap pamper bus?",
-      answer: "The bus requires approximately 2.5 to 3 standard car lengths of parking space on a flat, solid surface (such as outside your house on the road or a wide private driveway). Please ensure there is clear access with no low hanging trees or severe obstacles."
-    },
-    {
-      question: "Do you need to plug into our household electricity or water?",
-      answer: "No, not at all! The Beauty Trap Pamper Bus is completely self-contained. We have our own onboard power generators, luxury warm water tanks, heating, and air-conditioning systems."
-    },
-    {
-      question: "What age groups do you cater for?",
-      answer: "We specialize in children's parties for ages 4 to 16+, plus teenager glam parties, Hen Parties, and adult private functions. All treatments are tailored to be age-appropriate and skin-safe."
-    },
-    {
-      question: "How does the £100 deposit work?",
-      answer: "A £100 deposit secures your preferred date and time slot. Once paid, your booking is locked into our master party calendar. The remaining balance is paid on the day of the party."
-    },
-    {
-      question: "Can parents stay inside the bus during the party?",
-      answer: "Parents are always welcome to take photos, watch the red carpet entrance, and take a tour! However, our fully trained, insured, and DBS-checked team takes complete care of the pampering, so parents can comfortably relax in their home while the party is in full swing."
-    },
-    {
-      question: "What happens if it rains on the party day?",
-      answer: "The party goes on in complete luxury! The bus interior is fully enclosed, heated in winter, air-conditioned in summer, and features a covered entrance so bad weather never spoils the fun."
-    }
-  ];
+  const faqs = content.faqs && content.faqs.length > 0 ? content.faqs : [];
 
   return (
     <section id="faq" className="py-24 px-4 sm:px-6 bg-gradient-to-b from-white via-bt-pink-light/30 to-white dark:from-bt-dark-bg dark:via-[#130b17] dark:to-bt-dark-bg relative transition-colors duration-300">
@@ -56,7 +28,7 @@ export const FAQ: React.FC = () => {
             const isOpen = openIdx === idx;
             return (
               <div
-                key={idx}
+                key={faq.id || idx}
                 className="bg-white dark:bg-[#170e1d] rounded-2xl border border-pink-100 dark:border-bt-dark-border shadow-sm overflow-hidden transition-all duration-300"
               >
                 <button

@@ -1,63 +1,20 @@
 import React, { useState } from 'react';
-import { Instagram, Play, Heart, MessageCircle, ExternalLink, Sparkles, X } from 'lucide-react';
-
-interface ReelItem {
-  id: string;
-  thumbnail: string;
-  videoUrl?: string;
-  caption: string;
-  likes: string;
-  comments: string;
-  tag: string;
-}
+import { useContent } from '../context/ContentContext';
+import { Instagram, Play, Heart, MessageCircle, ExternalLink, X } from 'lucide-react';
 
 export const InstagramShowcase: React.FC = () => {
+  const { content } = useContent();
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
-  const reels: ReelItem[] = [
-    {
-      id: 'reel-1',
-      thumbnail: '/new_images/photo_6.jpeg',
-      videoUrl: '/pamper_bus_video.mp4',
-      caption: 'Full bus glam transformation! Hollywood mirrors, Plouise makeup stations & velvet pedicures ✨',
-      likes: '1,420',
-      comments: '86',
-      tag: '#PlouiseGlam'
-    },
-    {
-      id: 'reel-2',
-      thumbnail: '/new_images/photo_1.jpeg',
-      caption: 'Birthday girl VIP red carpet entrance! Nothing beats that priceless smile 💖',
-      likes: '984',
-      comments: '54',
-      tag: '#RedCarpetVIP'
-    },
-    {
-      id: 'reel-3',
-      thumbnail: '/new_images/photo_4.jpeg',
-      videoUrl: '/pamper_bus_video.mp4',
-      caption: 'Plouise festival makeup, face gems and party lashes for the ultimate glow-up! 💄',
-      likes: '1,890',
-      comments: '112',
-      tag: '#FestivalMakeup'
-    },
-    {
-      id: 'reel-4',
-      thumbnail: '/new_images/photo_3.jpeg',
-      caption: 'Pink velvet spa pedicures & foot soaks with best friends inside the trap! 💅',
-      likes: '1,150',
-      comments: '63',
-      tag: '#SpaPedicures'
-    }
-  ];
+  const reels = content.instagramReels && content.instagramReels.length > 0 ? content.instagramReels : [];
 
   return (
-    <section className="py-24 px-4 sm:px-6 bg-gradient-to-b from-white via-bt-pink-light/25 to-white dark:from-bt-dark-bg dark:via-[#140b18] dark:to-bt-dark-bg relative transition-colors duration-300 overflow-hidden">
+    <section id="instagram" className="py-24 px-4 sm:px-6 bg-gradient-to-b from-white via-bt-pink-light/25 to-white dark:from-bt-dark-bg dark:via-[#140b18] dark:to-bt-dark-bg relative transition-colors duration-300 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-14 fade-up">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500/15 via-purple-500/15 to-pink-500/15 border border-pink-300/50 dark:border-pink-800 px-4 py-1.5 rounded-full mb-3 text-pink-600 dark:text-pink-300 text-xs font-bold uppercase tracking-wider">
-            <Instagram className="w-4 h-4" /> @beautytrappamperbus
+            <Instagram className="w-4 h-4" /> @{content.instagram || 'beautytrappamperbus'}
           </div>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-bt-black dark:text-white">
             Follow The Glam On Instagram
@@ -122,12 +79,12 @@ export const InstagramShowcase: React.FC = () => {
         {/* CTA to Instagram */}
         <div className="mt-12 text-center">
           <a
-            href="https://instagram.com/beautytrappamperbus"
+            href={`https://instagram.com/${content.instagram || 'beautytrappamperbus'}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 text-white font-bold uppercase tracking-wider text-xs px-8 py-3.5 rounded-full shadow-xl hover:opacity-95 hover:scale-105 transition-all"
           >
-            <Instagram className="w-4 h-4" /> Follow @beautytrappamperbus On Instagram <ExternalLink className="w-3.5 h-3.5" />
+            <Instagram className="w-4 h-4" /> Follow @{content.instagram || 'beautytrappamperbus'} On Instagram <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
 

@@ -37,6 +37,31 @@ export interface GalleryItem {
   caption: string;
 }
 
+export interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+export interface AddonItem {
+  id: string;
+  name: string;
+  price: number;
+  perGuest?: boolean;
+  desc: string;
+  icon: string;
+}
+
+export interface ReelItem {
+  id: string;
+  thumbnail: string;
+  videoUrl?: string;
+  caption: string;
+  likes: string;
+  comments: string;
+  tag: string;
+}
+
 export interface SiteContent {
   phone: string;
   instagram: string;
@@ -60,6 +85,10 @@ export interface SiteContent {
     treatmentCategories: TreatmentCategory[];
     extraTreatments13Plus: string[];
   };
+  addons: AddonItem[];
+  timeSlots: string[];
+  faqs: FAQItem[];
+  instagramReels: ReelItem[];
   coverage: {
     title: string;
     subtitle: string;

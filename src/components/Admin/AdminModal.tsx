@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useContent } from '../../context/ContentContext';
-import { SiteContent, PackageItem, TreatmentCategory, TestimonialItem, GalleryItem } from '../../types';
+import { SiteContent, PackageItem, TreatmentCategory, TestimonialItem, GalleryItem, FAQItem, AddonItem, ReelItem } from '../../types';
 import {
   X,
   Lock,
   Sparkles,
   Save,
   RotateCcw,
-  CheckCircle,
   Plus,
   Trash2,
   Image,
@@ -18,8 +17,10 @@ import {
   Star,
   Phone,
   Key,
-  Eye,
-  Download
+  Gift,
+  HelpCircle,
+  Instagram,
+  Clock
 } from 'lucide-react';
 
 export const AdminModal: React.FC = () => {
@@ -279,6 +280,39 @@ export const AdminModal: React.FC = () => {
               }`}
             >
               <Sparkles className="w-4 h-4" /> Treatments Menu
+            </button>
+
+            <button
+              onClick={() => setActiveCmsTab('addons')}
+              className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2.5 transition-all ${
+                activeCmsTab === 'addons'
+                  ? 'bg-bt-gold text-bt-black shadow-md'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800'
+              }`}
+            >
+              <Gift className="w-4 h-4" /> Add-ons & Slots
+            </button>
+
+            <button
+              onClick={() => setActiveCmsTab('faqs')}
+              className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2.5 transition-all ${
+                activeCmsTab === 'faqs'
+                  ? 'bg-bt-gold text-bt-black shadow-md'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800'
+              }`}
+            >
+              <HelpCircle className="w-4 h-4" /> FAQ Accordion
+            </button>
+
+            <button
+              onClick={() => setActiveCmsTab('instagram')}
+              className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2.5 transition-all ${
+                activeCmsTab === 'instagram'
+                  ? 'bg-bt-gold text-bt-black shadow-md'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800'
+              }`}
+            >
+              <Instagram className="w-4 h-4" /> Instagram Reels
             </button>
 
             <button
@@ -803,7 +837,417 @@ export const AdminModal: React.FC = () => {
               </div>
             )}
 
-            {/* 5. COVERAGE TAB */}
+            {/* 5. ADD-ONS & SLOTS TAB (NEW!) */}
+            {activeCmsTab === 'addons' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between border-b pb-4 dark:border-bt-dark-border">
+                  <div>
+                    <h4 className="font-serif font-bold text-xl text-bt-black dark:text-white">
+                      🎁 VIP Party Add-ons & Time Slots
+                    </h4>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Customise party add-ons (Candy floss, robes, etc.) and party booking time slots.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newAddon: AddonItem = {
+                        id: 'addon-' + Date.now(),
+                        name: 'New VIP Add-on',
+                        price: 30,
+                        perGuest: false,
+                        desc: 'Special luxury upgrade',
+                        icon: '✨'
+                      };
+                      setFormData({
+                        ...formData,
+                        addons: [...(formData.addons || []), newAddon]
+                      });
+                    }}
+                    className="bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow"
+                  >
+                    <Plus className="w-4 h-4" /> Add New Add-on
+                  </button>
+                </div>
+
+                {/* Add-ons List */}
+                <div className="space-y-4">
+                  {(formData.addons || []).map((addon, aIdx) => (
+                    <div
+                      key={addon.id}
+                      className="bg-gray-50 dark:bg-bt-dark-card border border-gray-200 dark:border-bt-dark-border rounded-2xl p-4 sm:p-5 space-y-3"
+                    >
+                      <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                        <div className="sm:col-span-1">
+                          <label className="block text-[10px] font-bold text-gray-400 uppercase">Icon</label>
+                          <input
+                            type="text"
+                            value={addon.icon}
+                            onChange={(e) => {
+                              const newAddons = [...formData.addons];
+                              newAddons[aIdx].icon = e.target.value;
+                              setFormData({ ...formData, addons: newAddons });
+                            }}
+                            className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-lg p-2 text-center text-base"
+                          />
+                        </div>
+                        <div className="sm:col-span-5">
+                          <label className="block text-[10px] font-bold text-gray-400 uppercase">Name</label>
+                          <input
+                            type="text"
+                            value={addon.name}
+                            onChange={(e) => {
+                              const newAddons = [...formData.addons];
+                              newAddons[aIdx].name = e.target.value;
+                              setFormData({ ...formData, addons: newAddons });
+                            }}
+                            className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-lg p-2 text-xs font-bold"
+                          />
+                        </div>
+                        <div className="sm:col-span-2">
+                          <label className="block text-[10px] font-bold text-gray-400 uppercase">Price (£)</label>
+                          <input
+                            type="number"
+                            value={addon.price}
+                            onChange={(e) => {
+                              const newAddons = [...formData.addons];
+                              newAddons[aIdx].price = Number(e.target.value);
+                              setFormData({ ...formData, addons: newAddons });
+                            }}
+                            className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-lg p-2 text-xs font-bold text-bt-gold text-center"
+                          />
+                        </div>
+                        <div className="sm:col-span-3 flex items-center pt-4">
+                          <label className="flex items-center gap-2 text-xs font-bold cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={Boolean(addon.perGuest)}
+                              onChange={(e) => {
+                                const newAddons = [...formData.addons];
+                                newAddons[aIdx].perGuest = e.target.checked;
+                                setFormData({ ...formData, addons: newAddons });
+                              }}
+                              className="w-4 h-4 text-bt-gold rounded"
+                            />
+                            <span>Per Child / Guest</span>
+                          </label>
+                        </div>
+                        <div className="sm:col-span-1 flex justify-end pt-4">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newAddons = formData.addons.filter((_, i) => i !== aIdx);
+                              setFormData({ ...formData, addons: newAddons });
+                            }}
+                            className="text-red-500 hover:text-red-700 p-1.5 rounded hover:bg-red-50 dark:hover:bg-red-950/40"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">
+                          Description
+                        </label>
+                        <input
+                          type="text"
+                          value={addon.desc}
+                          onChange={(e) => {
+                            const newAddons = [...formData.addons];
+                            newAddons[aIdx].desc = e.target.value;
+                            setFormData({ ...formData, addons: newAddons });
+                          }}
+                          className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-lg p-2 text-xs"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Time Slots Config */}
+                <div className="bg-gray-50 dark:bg-bt-dark-card p-5 rounded-2xl border border-gray-200 dark:border-bt-dark-border space-y-3 pt-6">
+                  <h5 className="font-serif font-bold text-base text-bt-black dark:text-white flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-bt-gold" /> Booking Time Slots
+                  </h5>
+                  <div className="space-y-2">
+                    {(formData.timeSlots || []).map((slot, sIdx) => (
+                      <div key={sIdx} className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={slot}
+                          onChange={(e) => {
+                            const newSlots = [...formData.timeSlots];
+                            newSlots[sIdx] = e.target.value;
+                            setFormData({ ...formData, timeSlots: newSlots });
+                          }}
+                          className="flex-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-lg p-2 text-xs font-medium"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newSlots = formData.timeSlots.filter((_, i) => i !== sIdx);
+                            setFormData({ ...formData, timeSlots: newSlots });
+                          }}
+                          className="text-red-500 hover:text-red-700 p-1"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormData({
+                          ...formData,
+                          timeSlots: [...(formData.timeSlots || []), '✨ New Party Slot (6:00 PM - 8:00 PM)']
+                        });
+                      }}
+                      className="text-xs text-bt-gold font-bold uppercase tracking-wider flex items-center gap-1 mt-2"
+                    >
+                      <Plus className="w-3.5 h-3.5" /> Add Time Slot
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 6. FAQ ACCORDION TAB (NEW!) */}
+            {activeCmsTab === 'faqs' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between border-b pb-4 dark:border-bt-dark-border">
+                  <div>
+                    <h4 className="font-serif font-bold text-xl text-bt-black dark:text-white">
+                      ❓ Frequently Asked Questions (FAQ)
+                    </h4>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Add, edit, or remove questions and answers in the luxury parent FAQ accordion.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newFaq: FAQItem = {
+                        id: 'faq-' + Date.now(),
+                        question: 'New Question for Parents?',
+                        answer: 'Clear and helpful answer details.'
+                      };
+                      setFormData({
+                        ...formData,
+                        faqs: [...(formData.faqs || []), newFaq]
+                      });
+                    }}
+                    className="bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow"
+                  >
+                    <Plus className="w-4 h-4" /> Add FAQ Question
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  {(formData.faqs || []).map((faq, fIdx) => (
+                    <div
+                      key={faq.id}
+                      className="bg-gray-50 dark:bg-bt-dark-card border border-gray-200 dark:border-bt-dark-border rounded-2xl p-5 space-y-3"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <input
+                          type="text"
+                          value={faq.question}
+                          onChange={(e) => {
+                            const newFaqs = [...formData.faqs];
+                            newFaqs[fIdx].question = e.target.value;
+                            setFormData({ ...formData, faqs: newFaqs });
+                          }}
+                          placeholder="Question Title..."
+                          className="flex-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-xl p-2.5 text-sm font-bold text-bt-black dark:text-white"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newFaqs = formData.faqs.filter((_, i) => i !== fIdx);
+                            setFormData({ ...formData, faqs: newFaqs });
+                          }}
+                          className="text-red-500 hover:text-red-700 p-2 rounded hover:bg-red-50 dark:hover:bg-red-950/40"
+                          title="Delete FAQ"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">
+                          Answer Details:
+                        </label>
+                        <textarea
+                          rows={3}
+                          value={faq.answer}
+                          onChange={(e) => {
+                            const newFaqs = [...formData.faqs];
+                            newFaqs[fIdx].answer = e.target.value;
+                            setFormData({ ...formData, faqs: newFaqs });
+                          }}
+                          className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-xl p-3 text-xs leading-relaxed"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 7. INSTAGRAM REELS TAB (NEW!) */}
+            {activeCmsTab === 'instagram' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between border-b pb-4 dark:border-bt-dark-border">
+                  <div>
+                    <h4 className="font-serif font-bold text-xl text-bt-black dark:text-white">
+                      📱 Instagram Reels & Social Feed
+                    </h4>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Manage video reels, captions, tags, and likes displayed in the Instagram Showcase.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newReel: ReelItem = {
+                        id: 'reel-' + Date.now(),
+                        thumbnail: '/new_images/photo_6.jpeg',
+                        videoUrl: '/pamper_bus_video.mp4',
+                        caption: 'Party transformation magic inside the pamper bus! ✨',
+                        likes: '1,500',
+                        comments: '75',
+                        tag: '#PartyVibes'
+                      };
+                      setFormData({
+                        ...formData,
+                        instagramReels: [...(formData.instagramReels || []), newReel]
+                      });
+                    }}
+                    className="bg-bt-black dark:bg-bt-gold text-white dark:text-bt-black px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow"
+                  >
+                    <Plus className="w-4 h-4" /> Add New Reel
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {(formData.instagramReels || []).map((reel, rIdx) => (
+                    <div
+                      key={reel.id}
+                      className="bg-gray-50 dark:bg-bt-dark-card border border-gray-200 dark:border-bt-dark-border rounded-2xl p-4 space-y-3"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            value={reel.tag}
+                            onChange={(e) => {
+                              const newReels = [...formData.instagramReels];
+                              newReels[rIdx].tag = e.target.value;
+                              setFormData({ ...formData, instagramReels: newReels });
+                            }}
+                            className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-lg p-1.5 text-xs font-bold text-pink-500"
+                            placeholder="#Tag"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newReels = formData.instagramReels.filter((_, i) => i !== rIdx);
+                            setFormData({ ...formData, instagramReels: newReels });
+                          }}
+                          className="text-red-500 hover:text-red-700 p-1"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      <div className="aspect-[9/10] rounded-xl overflow-hidden bg-gray-900 relative group">
+                        <img src={reel.thumbnail} alt={reel.caption} className="w-full h-full object-cover" />
+                        <label className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer text-white text-xs font-bold gap-1">
+                          <Upload className="w-4 h-4" /> Replace Thumbnail
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) =>
+                              handleImageUpload(e, (dataUrl) => {
+                                const newReels = [...formData.instagramReels];
+                                newReels[rIdx].thumbnail = dataUrl;
+                                setFormData({ ...formData, instagramReels: newReels });
+                              })
+                            }
+                          />
+                        </label>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">
+                          Caption:
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={reel.caption}
+                          onChange={(e) => {
+                            const newReels = [...formData.instagramReels];
+                            newReels[rIdx].caption = e.target.value;
+                            setFormData({ ...formData, instagramReels: newReels });
+                          }}
+                          className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-xl p-2 text-xs"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[10px] font-bold text-gray-400 uppercase">Likes</label>
+                          <input
+                            type="text"
+                            value={reel.likes}
+                            onChange={(e) => {
+                              const newReels = [...formData.instagramReels];
+                              newReels[rIdx].likes = e.target.value;
+                              setFormData({ ...formData, instagramReels: newReels });
+                            }}
+                            className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-lg p-1.5 text-xs font-bold"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-bold text-gray-400 uppercase">Comments</label>
+                          <input
+                            type="text"
+                            value={reel.comments}
+                            onChange={(e) => {
+                              const newReels = [...formData.instagramReels];
+                              newReels[rIdx].comments = e.target.value;
+                              setFormData({ ...formData, instagramReels: newReels });
+                            }}
+                            className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-lg p-1.5 text-xs font-bold"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase">Video URL</label>
+                        <input
+                          type="text"
+                          value={reel.videoUrl || ''}
+                          onChange={(e) => {
+                            const newReels = [...formData.instagramReels];
+                            newReels[rIdx].videoUrl = e.target.value;
+                            setFormData({ ...formData, instagramReels: newReels });
+                          }}
+                          placeholder="/pamper_bus_video.mp4"
+                          className="w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-bt-dark-border rounded-lg p-1.5 text-xs"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 8. COVERAGE TAB */}
             {activeCmsTab === 'coverage' && (
               <div className="space-y-6 max-w-3xl">
                 <h4 className="font-serif font-bold text-xl text-bt-black dark:text-white border-b pb-3 dark:border-bt-dark-border">
@@ -922,7 +1366,7 @@ export const AdminModal: React.FC = () => {
               </div>
             )}
 
-            {/* 6. TESTIMONIALS TAB */}
+            {/* 9. TESTIMONIALS TAB */}
             {activeCmsTab === 'testimonials' && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between border-b pb-4 dark:border-bt-dark-border">
@@ -1045,7 +1489,7 @@ export const AdminModal: React.FC = () => {
               </div>
             )}
 
-            {/* 7. CONTACT & SOCIALS TAB */}
+            {/* 10. CONTACT & SOCIALS TAB */}
             {activeCmsTab === 'contact' && (
               <div className="space-y-4 max-w-2xl">
                 <h4 className="font-serif font-bold text-xl text-bt-black dark:text-white border-b pb-3 dark:border-bt-dark-border">
@@ -1093,7 +1537,7 @@ export const AdminModal: React.FC = () => {
               </div>
             )}
 
-            {/* 8. SECURITY & PASSWORD TAB */}
+            {/* 11. SECURITY & PASSWORD TAB */}
             {activeCmsTab === 'password' && (
               <div className="space-y-6 max-w-xl">
                 <h4 className="font-serif font-bold text-xl text-bt-black dark:text-white border-b pb-3 dark:border-bt-dark-border">

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { SiteContent, PackageItem, GalleryItem } from '../types';
-import { defaultSiteContent } from '../data/defaultContent';
+import { SiteContent, PackageItem, GalleryItem, FAQItem, AddonItem, ReelItem } from '../types';
+import { defaultContent } from '../data/defaultContent';
 import { contentService } from '../services/api';
 
 interface ContentContextType {
@@ -21,19 +21,19 @@ interface ContentContextType {
   lastSyncedAt?: string;
 }
 
-const STORAGE_KEY = 'beauty_trap_site_content_v5';
+const STORAGE_KEY = 'beauty_trap_site_content_v6';
 const AUTH_KEY = 'beauty_trap_admin_auth';
 const PWD_KEY = 'beauty_trap_admin_pwd';
 const DEFAULT_PASSWORD = 'beautytrap2026';
 
 export const sanitizeContent = (raw: any): SiteContent => {
-  if (!raw || typeof raw !== 'object') return defaultSiteContent;
+  if (!raw || typeof raw !== 'object') return defaultContent;
 
   const sanitizePackageItems = (items: any[]): PackageItem[] => {
-    if (!Array.isArray(items) || items.length === 0) return defaultSiteContent.packages.items;
+    if (!Array.isArray(items) || items.length === 0) return defaultContent.packages.items;
     
     const isValid = items.every(item => item && Array.isArray(item.pricing) && item.pricing.length > 0);
-    if (!isValid) return defaultSiteContent.packages.items;
+    if (!isValid) return defaultContent.packages.items;
 
     return items.map(item => ({
       id: item.id || 'pkg-' + Math.random(),
@@ -59,7 +59,7 @@ export const sanitizeContent = (raw: any): SiteContent => {
   };
 
   const sanitizeGallery = (items: any[]): GalleryItem[] => {
-    if (!Array.isArray(items) || items.length === 0) return defaultSiteContent.gallery.items;
+    if (!Array.isArray(items) || items.length === 0) return defaultContent.gallery.items;
     return items.map((g, idx) => ({
       id: g.id || 'img-' + (idx + 1),
       src: g.src || '/new_images/photo_1.jpeg',
@@ -68,55 +68,93 @@ export const sanitizeContent = (raw: any): SiteContent => {
     }));
   };
 
+  const sanitizeFaqs = (items: any[]): FAQItem[] => {
+    if (!Array.isArray(items) || items.length === 0) return defaultContent.faqs;
+    return items.map((f, idx) => ({
+      id: f.id || 'faq-' + (idx + 1),
+      question: f.question || 'Party Question?',
+      answer: f.answer || 'Party Answer.'
+    }));
+  };
+
+  const sanitizeAddons = (items: any[]): AddonItem[] => {
+    if (!Array.isArray(items) || items.length === 0) return defaultContent.addons;
+    return items.map((a, idx) => ({
+      id: a.id || 'addon-' + (idx + 1),
+      name: a.name || 'VIP Party Add-on',
+      price: Number(a.price) || 20,
+      perGuest: Boolean(a.perGuest),
+      desc: a.desc || 'Luxury party upgrade',
+      icon: a.icon || '✨'
+    }));
+  };
+
+  const sanitizeReels = (items: any[]): ReelItem[] => {
+    if (!Array.isArray(items) || items.length === 0) return defaultContent.instagramReels;
+    return items.map((r, idx) => ({
+      id: r.id || 'reel-' + (idx + 1),
+      thumbnail: r.thumbnail || '/new_images/photo_6.jpeg',
+      videoUrl: r.videoUrl || '/pamper_bus_video.mp4',
+      caption: r.caption || 'Luxury pamper party glam!',
+      likes: r.likes || '1,200',
+      comments: r.comments || '45',
+      tag: r.tag || '#BeautyTrap'
+    }));
+  };
+
   return {
-    phone: typeof raw.phone === 'string' && raw.phone ? raw.phone : defaultSiteContent.phone,
-    instagram: typeof raw.instagram === 'string' && raw.instagram ? raw.instagram : defaultSiteContent.instagram,
-    email: typeof raw.email === 'string' && raw.email ? raw.email : defaultSiteContent.email,
-    depositText: typeof raw.depositText === 'string' && raw.depositText ? raw.depositText : defaultSiteContent.depositText,
+    phone: typeof raw.phone === 'string' && raw.phone ? raw.phone : defaultContent.phone,
+    instagram: typeof raw.instagram === 'string' && raw.instagram ? raw.instagram : defaultContent.instagram,
+    email: typeof raw.email === 'string' && raw.email ? raw.email : defaultContent.email,
+    depositText: typeof raw.depositText === 'string' && raw.depositText ? raw.depositText : defaultContent.depositText,
     hero: {
-      badge: raw.hero?.badge || defaultSiteContent.hero.badge,
-      titleLine1: raw.hero?.titleLine1 || defaultSiteContent.hero.titleLine1,
-      titleHighlight: raw.hero?.titleHighlight || defaultSiteContent.hero.titleHighlight,
-      titleLine2: raw.hero?.titleLine2 || defaultSiteContent.hero.titleLine2,
-      subtitle: raw.hero?.subtitle || defaultSiteContent.hero.subtitle,
-      description: raw.hero?.description || defaultSiteContent.hero.description,
-      videoUrl: raw.hero?.videoUrl || defaultSiteContent.hero.videoUrl
+      badge: raw.hero?.badge || defaultContent.hero.badge,
+      titleLine1: raw.hero?.titleLine1 || defaultContent.hero.titleLine1,
+      titleHighlight: raw.hero?.titleHighlight || defaultContent.hero.titleHighlight,
+      titleLine2: raw.hero?.titleLine2 || defaultContent.hero.titleLine2,
+      subtitle: raw.hero?.subtitle || defaultContent.hero.subtitle,
+      description: raw.hero?.description || defaultContent.hero.description,
+      videoUrl: raw.hero?.videoUrl || defaultContent.hero.videoUrl
     },
     packages: {
-      scriptTitle: raw.packages?.scriptTitle || defaultSiteContent.packages.scriptTitle,
-      mainTitle: raw.packages?.mainTitle || defaultSiteContent.packages.mainTitle,
-      subtitle: raw.packages?.subtitle || defaultSiteContent.packages.subtitle,
+      scriptTitle: raw.packages?.scriptTitle || defaultContent.packages.scriptTitle,
+      mainTitle: raw.packages?.mainTitle || defaultContent.packages.mainTitle,
+      subtitle: raw.packages?.subtitle || defaultContent.packages.subtitle,
       items: sanitizePackageItems(raw.packages?.items),
       partyIncludes: Array.isArray(raw.packages?.partyIncludes) && raw.packages.partyIncludes.length > 0
         ? raw.packages.partyIncludes
-        : defaultSiteContent.packages.partyIncludes,
+        : defaultContent.packages.partyIncludes,
       treatmentCategories: Array.isArray(raw.packages?.treatmentCategories) && raw.packages.treatmentCategories.length > 0
         ? raw.packages.treatmentCategories
-        : defaultSiteContent.packages.treatmentCategories,
+        : defaultContent.packages.treatmentCategories,
       extraTreatments13Plus: Array.isArray(raw.packages?.extraTreatments13Plus) && raw.packages.extraTreatments13Plus.length > 0
         ? raw.packages.extraTreatments13Plus
-        : defaultSiteContent.packages.extraTreatments13Plus
+        : defaultContent.packages.extraTreatments13Plus
     },
+    addons: sanitizeAddons(raw.addons),
+    timeSlots: Array.isArray(raw.timeSlots) && raw.timeSlots.length > 0 ? raw.timeSlots : defaultContent.timeSlots,
+    faqs: sanitizeFaqs(raw.faqs),
+    instagramReels: sanitizeReels(raw.instagramReels),
     coverage: {
-      title: raw.coverage?.title || defaultSiteContent.coverage.title,
-      subtitle: raw.coverage?.subtitle || defaultSiteContent.coverage.subtitle,
+      title: raw.coverage?.title || defaultContent.coverage.title,
+      subtitle: raw.coverage?.subtitle || defaultContent.coverage.subtitle,
       areas: Array.isArray(raw.coverage?.areas) && raw.coverage.areas.length > 0
         ? raw.coverage.areas
-        : defaultSiteContent.coverage.areas,
-      radiusInfo: raw.coverage?.radiusInfo || defaultSiteContent.coverage.radiusInfo,
-      mapImage: raw.coverage?.mapImage || defaultSiteContent.coverage.mapImage
+        : defaultContent.coverage.areas,
+      radiusInfo: raw.coverage?.radiusInfo || defaultContent.coverage.radiusInfo,
+      mapImage: raw.coverage?.mapImage || defaultContent.coverage.mapImage
     },
     testimonials: {
-      scriptTitle: raw.testimonials?.scriptTitle || defaultSiteContent.testimonials.scriptTitle,
-      mainTitle: raw.testimonials?.mainTitle || defaultSiteContent.testimonials.mainTitle,
+      scriptTitle: raw.testimonials?.scriptTitle || defaultContent.testimonials.scriptTitle,
+      mainTitle: raw.testimonials?.mainTitle || defaultContent.testimonials.mainTitle,
       items: Array.isArray(raw.testimonials?.items) && raw.testimonials.items.length > 0
         ? raw.testimonials.items
-        : defaultSiteContent.testimonials.items
+        : defaultContent.testimonials.items
     },
     gallery: {
-      scriptTitle: raw.gallery?.scriptTitle || defaultSiteContent.gallery.scriptTitle,
-      mainTitle: raw.gallery?.mainTitle || defaultSiteContent.gallery.mainTitle,
-      subtitle: raw.gallery?.subtitle || defaultSiteContent.gallery.subtitle,
+      scriptTitle: raw.gallery?.scriptTitle || defaultContent.gallery.scriptTitle,
+      mainTitle: raw.gallery?.mainTitle || defaultContent.gallery.mainTitle,
+      subtitle: raw.gallery?.subtitle || defaultContent.gallery.subtitle,
       items: sanitizeGallery(raw.gallery?.items)
     }
   };
@@ -134,7 +172,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     } catch (e) {
       console.warn('Using default content:', e);
     }
-    return defaultSiteContent;
+    return defaultContent;
   });
 
   const [isAdminOpen, setIsAdminOpen] = useState(false);
@@ -230,7 +268,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const resetContent = () => {
-    setContent(defaultSiteContent);
+    setContent(defaultContent);
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(PWD_KEY);
   };

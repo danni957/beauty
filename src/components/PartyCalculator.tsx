@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { useContent } from '../context/ContentContext';
-import { Sparkles, MapPin, CheckCircle, ArrowRight, MessageCircle, Clock, Calendar, Gift, Check } from 'lucide-react';
-
-interface AddOn {
-  id: string;
-  name: string;
-  price: number;
-  perGuest?: boolean;
-  desc: string;
-  icon: string;
-}
+import { Sparkles, MapPin, CheckCircle, ArrowRight, MessageCircle, Clock, Gift, Check } from 'lucide-react';
 
 export const PartyCalculator: React.FC = () => {
   const { content } = useContent();
-  const { phone, packages } = content;
+  const { phone, packages, addons, timeSlots } = content;
+
+  // Available slots
+  const availableSlots = timeSlots && timeSlots.length > 0 ? timeSlots : [
+    '🌅 Morning Sparkle (11:00 AM - 1:00 PM)',
+    '☀️ Afternoon Glam (2:30 PM - 4:30 PM)',
+    '🌆 Twilight VIP Glow (5:30 PM - 7:30 PM)'
+  ];
+
+  // Available add-ons from dynamic CMS
+  const availableAddons = addons && addons.length > 0 ? addons : [];
 
   // State
-  const [selectedPkgIndex, setSelectedPkgIndex] = useState(1); // Default Silver (Most Popular)
-  const [selectedGuests, setSelectedGuests] = useState('8'); // 6, 8, 10, 12
-  const [selectedSlot, setSelectedSlot] = useState('☀️ Afternoon Glam (2:30 PM - 4:30 PM)');
+  const [selectedPkgIndex, setSelectedPkgIndex] = useState(1);
+  const [selectedGuests, setSelectedGuests] = useState('8');
+  const [selectedSlot, setSelectedSlot] = useState(availableSlots[1] || availableSlots[0]);
   const [partyDate, setPartyDate] = useState('');
   const [postcode, setPostcode] = useState('');
   const [postcodeStatus, setPostcodeStatus] = useState<'idle' | 'covered' | 'extended'>('idle');
@@ -26,46 +27,6 @@ export const PartyCalculator: React.FC = () => {
 
   const pkgList = packages?.items || [];
   const currentPkg = pkgList[selectedPkgIndex] || pkgList[0];
-
-  // Add-ons list
-  const availableAddons: AddOn[] = [
-    {
-      id: 'candy-floss',
-      name: 'Pink Candy Floss Cart & Fresh Sticks',
-      price: 45,
-      desc: 'All-you-can-eat fresh pink spun sugar during party',
-      icon: '🍬'
-    },
-    {
-      id: 'custom-robes',
-      name: 'Personalised Name Embroidered Silk Robes',
-      price: 15,
-      perGuest: true,
-      desc: 'Keepsake pink silk robes with each child’s name',
-      icon: '🎀'
-    },
-    {
-      id: 'polaroid-album',
-      name: 'Instant Polaroid Photo Keepsake Album',
-      price: 35,
-      desc: 'Glitter photo album filled with printed snaps on the day',
-      icon: '📸'
-    },
-    {
-      id: 'mocktail-fountain',
-      name: 'Illuminated LED Mocktail Fountain & Gold Flutes',
-      price: 40,
-      desc: 'Sparkling pink lemonade fountain with champagne glasses',
-      icon: '🍹'
-    },
-    {
-      id: 'deluxe-tiara',
-      name: 'Birthday Girl Deluxe 24k Gold Tiara & Silk Sash',
-      price: 20,
-      desc: 'Royal crowning ceremony for the birthday VIP',
-      icon: '👑'
-    }
-  ];
 
   // Calculate Base Price
   const tier = currentPkg?.pricing?.find(p => p.guests.includes(selectedGuests)) || currentPkg?.pricing?.[1];
@@ -76,7 +37,7 @@ export const PartyCalculator: React.FC = () => {
   const addonsTotal = selectedAddons.reduce((sum, addonId) => {
     const item = availableAddons.find(a => a.id === addonId);
     if (!item) return sum;
-    return sum + (item.perGuest ? item.price * guestCountNum : item.price);
+    return sum + (item.perGuest ? Number(item.price) * guestCountNum : Number(item.price));
   }, 0);
 
   const grandTotal = basePriceNum + addonsTotal;
@@ -113,7 +74,7 @@ export const PartyCalculator: React.FC = () => {
   const handleWhatsAppBooking = () => {
     const chosenAddonNames = selectedAddons.map(id => {
       const a = availableAddons.find(item => item.id === id);
-      return a ? `• ${a.name} (+${a.perGuest ? '£' + (a.price * guestCountNum) : '£' + a.price})` : '';
+      return a ? `• ${a.name} (+${a.perGuest ? '£' + (Number(a.price) * guestCountNum) : '£' + a.price})` : '';
     }).filter(Boolean).join('\n');
 
     const msg = `Hi Dannii! I used your online Party Calculator and would like to check availability:
@@ -198,7 +159,7 @@ Can you please confirm if this date & time slot is available?`;
               </div>
             </div>
 
-            {/* Step 3: Date & Preferred Time Slot (Feature 3) */}
+            {/* Step 3: Date & Preferred Time Slot */}
             <div className="pt-2 border-t border-pink-100 dark:border-gray-800">
               <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-300 mb-3 flex items-center gap-1.5">
                 <Clock className="w-4 h-4 text-bt-gold" /> Step 3: Preferred Date & Time Slot
@@ -216,11 +177,7 @@ Can you please confirm if this date & time slot is available?`;
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  {[
-                    '🌅 Morning Sparkle (11:00 AM - 1:00 PM)',
-                    '☀️ Afternoon Glam (2:30 PM - 4:30 PM)',
-                    '🌆 Twilight VIP Glow (5:30 PM - 7:30 PM)'
-                  ].map((slot) => (
+                  {availableSlots.map((slot) => (
                     <button
                       key={slot}
                       type="button"
@@ -238,51 +195,53 @@ Can you please confirm if this date & time slot is available?`;
               </div>
             </div>
 
-            {/* Step 4: Optional VIP Add-ons (Feature 1) */}
-            <div className="pt-2 border-t border-pink-100 dark:border-gray-800">
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-300 mb-3 flex items-center gap-1.5">
-                <Gift className="w-4 h-4 text-bt-gold" /> Step 4: Optional VIP Party Add-ons
-              </label>
-              <div className="space-y-2.5">
-                {availableAddons.map((addon) => {
-                  const isChecked = selectedAddons.includes(addon.id);
-                  const priceLabel = addon.perGuest
-                    ? `+£${addon.price * guestCountNum} (£${addon.price}/child)`
-                    : `+£${addon.price}`;
+            {/* Step 4: Optional VIP Add-ons (Dynamic from CMS) */}
+            {availableAddons.length > 0 && (
+              <div className="pt-2 border-t border-pink-100 dark:border-gray-800">
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-300 mb-3 flex items-center gap-1.5">
+                  <Gift className="w-4 h-4 text-bt-gold" /> Step 4: Optional VIP Party Add-ons
+                </label>
+                <div className="space-y-2.5">
+                  {availableAddons.map((addon) => {
+                    const isChecked = selectedAddons.includes(addon.id);
+                    const priceLabel = addon.perGuest
+                      ? `+£${Number(addon.price) * guestCountNum} (£${addon.price}/child)`
+                      : `+£${addon.price}`;
 
-                  return (
-                    <div
-                      key={addon.id}
-                      onClick={() => toggleAddon(addon.id)}
-                      className={`p-3 sm:p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
-                        isChecked
-                          ? 'bg-pink-50 dark:bg-pink-950/40 border-pink-400 dark:border-pink-700 shadow-sm'
-                          : 'bg-white dark:bg-[#23172b] border-gray-200 dark:border-gray-700 hover:border-pink-300'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold border transition-colors ${
+                    return (
+                      <div
+                        key={addon.id}
+                        onClick={() => toggleAddon(addon.id)}
+                        className={`p-3 sm:p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
                           isChecked
-                            ? 'bg-pink-500 text-white border-pink-500'
-                            : 'border-gray-300 dark:border-gray-600 text-transparent'
-                        }`}>
-                          <Check className="w-3.5 h-3.5" />
+                            ? 'bg-pink-50 dark:bg-pink-950/40 border-pink-400 dark:border-pink-700 shadow-sm'
+                            : 'bg-white dark:bg-[#23172b] border-gray-200 dark:border-gray-700 hover:border-pink-300'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold border transition-colors ${
+                            isChecked
+                              ? 'bg-pink-500 text-white border-pink-500'
+                              : 'border-gray-300 dark:border-gray-600 text-transparent'
+                          }`}>
+                            <Check className="w-3.5 h-3.5" />
+                          </div>
+                          <div>
+                            <p className="text-xs sm:text-sm font-bold text-bt-black dark:text-white flex items-center gap-1.5">
+                              <span>{addon.icon}</span> {addon.name}
+                            </p>
+                            <p className="text-[11px] text-gray-500 dark:text-gray-400">{addon.desc}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-xs sm:text-sm font-bold text-bt-black dark:text-white flex items-center gap-1.5">
-                            <span>{addon.icon}</span> {addon.name}
-                          </p>
-                          <p className="text-[11px] text-gray-500 dark:text-gray-400">{addon.desc}</p>
-                        </div>
+                        <span className="text-xs font-bold text-bt-gold flex-shrink-0 bg-white dark:bg-gray-800 px-2.5 py-1 rounded-full border border-bt-gold/30">
+                          {priceLabel}
+                        </span>
                       </div>
-                      <span className="text-xs font-bold text-bt-gold flex-shrink-0 bg-white dark:bg-gray-800 px-2.5 py-1 rounded-full border border-bt-gold/30">
-                        {priceLabel}
-                      </span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Step 5: Postcode Radius Checker */}
             <div className="pt-2 border-t border-pink-100 dark:border-gray-800">
