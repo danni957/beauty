@@ -145,10 +145,10 @@ export const defaultContent: SiteContent = {
     }
   ],
 
-  timeSlots: [
-    '🌅 Morning Sparkle (11:00 AM - 1:00 PM)',
-    '☀️ Afternoon Glam (2:30 PM - 4:30 PM)',
-    '🌆 Twilight VIP Glow (5:30 PM - 7:30 PM)'
+    timeSlots: [
+    '🌅 Morning Slot (11:00 AM)',
+    '☀️ Afternoon Slot (2:00 PM)',
+    '🌆 Evening VIP Slot (5:00 PM)'
   ],
 
   faqs: [
