@@ -1,36 +1,55 @@
 import React, { useState } from 'react';
-import { Mail, Sparkles, Download, Share2, Crown, Calendar, Clock, MapPin, Check } from 'lucide-react';
+import { Sparkles, Crown, Calendar, Clock, MapPin, Check, Copy } from 'lucide-react';
 
 export const InvitationGenerator: React.FC = () => {
   const [childName, setChildName] = useState('Princess Sophie');
   const [childAge, setChildAge] = useState('8th');
   const [partyDate, setPartyDate] = useState('Saturday, 14th October');
-  const [partyTime, setPartyTime] = useState('2:30 PM - 4:30 PM');
+  const [partyTime, setPartyTime] = useState('2:00 PM - 4:00 PM');
   const [partyLocation, setPartyLocation] = useState('Outside Sophie’s House');
   const [rsvpContact, setRsvpContact] = useState('07123 456789');
+  const [copied, setCopied] = useState(false);
 
-  const handleShareInvite = () => {
-    const inviteText = `👑 YOU’RE INVITED TO A VIP SPA PARTY! 💖
+  const getInviteText = () => {
+    return `👑 YOU’RE INVITED TO A VIP SPA PARTY! 💖
 
 You are invited to celebrate ${childName}’s ${childAge} Birthday aboard The Beauty Trap Pamper Bus!
 
-✨ Treatments: Plouise Makeup, Velvet Pedicures, Hair Braiding & Face Gems!
+✨ Treatments: Luxury Makeup, Velvet Pedicures, Hair Braiding & Face Gems!
 👗 Dress Code: Pink & Sparkles!
 🗓️ Date: ${partyDate}
 ⏰ Time: ${partyTime}
 📍 Location: ${partyLocation}
 📞 RSVP: Please let us know by contacting ${rsvpContact}
 
-Get ready for the ultimate pamper experience on wheels! ✨`;
+Get ready for the ultimate pamper experience on wheels! 🚌✨
+Website: https://beautytrappamperbus.com/`;
+  };
 
-    if (navigator.share) {
-      navigator.share({
-        title: `VIP Pamper Party Invitation for ${childName}`,
-        text: inviteText,
-        url: 'https://beautytrappamperbus.com/'
-      }).catch(() => {});
-    } else {
-      window.open(`https://wa.me/?text=${encodeURIComponent(inviteText)}`, '_blank');
+  const handleShareWhatsApp = () => {
+    const inviteText = getInviteText();
+    // Direct WhatsApp share URL (never opens the broken Windows OS dialog)
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(inviteText)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleCopyText = async () => {
+    const inviteText = getInviteText();
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(inviteText);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = inviteText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch (e) {
+      console.error('Failed to copy', e);
     }
   };
 
@@ -104,7 +123,7 @@ Get ready for the ultimate pamper experience on wheels! ✨`;
                   type="text"
                   value={partyTime}
                   onChange={(e) => setPartyTime(e.target.value)}
-                  placeholder="e.g. 2:30 PM - 4:30 PM"
+                  placeholder="e.g. 2:00 PM - 4:00 PM"
                   className="w-full bg-white dark:bg-[#24172c] border border-gray-300 dark:border-gray-700 text-bt-black dark:text-white rounded-xl p-3 text-sm focus:border-bt-gold focus:outline-none"
                 />
               </div>
@@ -137,13 +156,34 @@ Get ready for the ultimate pamper experience on wheels! ✨`;
               </div>
             </div>
 
-            <div className="pt-2">
+            {/* Action Buttons */}
+            <div className="pt-3 space-y-2.5">
               <button
                 type="button"
-                onClick={handleShareInvite}
-                className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-rose-500 hover:to-pink-500 text-white font-bold uppercase tracking-wider text-xs py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2"
+                onClick={handleShareWhatsApp}
+                className="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:from-emerald-500 hover:to-green-600 text-white font-bold uppercase tracking-wider text-xs py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95"
               >
-                <Share2 className="w-4 h-4" /> Share Invitation Card on WhatsApp
+                <i className="fab fa-whatsapp text-lg"></i> Send Invitation On WhatsApp
+              </button>
+
+              <button
+                type="button"
+                onClick={handleCopyText}
+                className={`w-full py-3 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 border ${
+                  copied
+                    ? 'bg-green-500 text-white border-green-500 shadow-md'
+                    : 'bg-white dark:bg-[#23172b] text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700 hover:border-bt-gold'
+                }`}
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4 text-white" /> Copied to Clipboard! Paste in Chat
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 text-bt-gold" /> Copy Invitation Text
+                  </>
+                )}
               </button>
             </div>
           </div>
@@ -187,7 +227,7 @@ Get ready for the ultimate pamper experience on wheels! ✨`;
               </div>
 
               <div className="text-[11px] text-gray-300 space-y-1">
-                <p>✨ <strong>Includes:</strong> Plouise Glam, Nails, Braids & Karaoke!</p>
+                <p>✨ <strong>Includes:</strong> Luxury Makeup, Nails, Braids & Karaoke!</p>
                 <p>👗 <strong>Dress Code:</strong> Pink & Sparkles</p>
                 <p className="pt-2 text-bt-gold font-bold">RSVP: {rsvpContact}</p>
               </div>
