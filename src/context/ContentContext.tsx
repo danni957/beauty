@@ -21,7 +21,7 @@ interface ContentContextType {
   lastSyncedAt?: string;
 }
 
-const STORAGE_KEY = 'beauty_trap_site_content_v6';
+const STORAGE_KEY = 'beauty_trap_site_content_v8';
 const AUTH_KEY = 'beauty_trap_admin_auth';
 const PWD_KEY = 'beauty_trap_admin_pwd';
 const DEFAULT_PASSWORD = 'beautytrap2026';

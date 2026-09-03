@@ -92,8 +92,6 @@ export const defaultContent: SiteContent = {
       'Pink Lemonade in Champagne Flutes',
       'Candy Floss',
       'Full Karaoke & Sound System',
-      'Plouise Glam Makeup Stations',
-      'Hollywood Light Vanity Mirrors',
       'Luxury Velvet Foot Spa Stations'
     ],
     treatmentCategories: [
@@ -160,7 +158,7 @@ export const defaultContent: SiteContent = {
     {
       id: 'faq-2',
       question: "Do you need to plug into our household electricity or water?",
-      answer: "No, not at all! The Beauty Trap Pamper Bus is completely self-contained. We have our own onboard power generators, luxury warm water tanks, heating, and air-conditioning systems."
+      answer: "We do need access to a standard household plug socket to run our electricity (an extension lead is provided). Our luxury warm water, heating, and pamper stations are fully self-contained on board the bus!"
     },
     {
       id: 'faq-3',
@@ -289,14 +287,15 @@ export const defaultContent: SiteContent = {
       { id: 'img-6', src: '/new_images/photo_6.jpeg', category: 'bus', caption: 'Pamper Bus Robes & Setup' },
       { id: 'img-7', src: '/new_images/photo_7.jpeg', category: 'bus', caption: 'Beauty Trap Pamper Bus Exterior' },
       { id: 'img-8', src: '/new_images/photo_8.jpeg', category: 'bus', caption: 'Hollywood Mirrors & Lights' },
-      { id: 'img-9', src: '/new_images/photo_9.jpeg', category: 'bus', caption: 'Making Beds & Party Space' },
+      { id: 'img-9', src: '/new_images/photo_9.jpeg', category: 'bus', caption: 'Party Space' },
       { id: 'img-10', src: '/new_images/photo_10.jpeg', category: 'bus', caption: 'We Cover It All Map & Flyer' },
       { id: 'img-11', src: '/new_images/photo_11.jpeg', category: 'hair', caption: 'Hair Tinsel & Braiding Station' },
       { id: 'img-12', src: '/new_images/photo_12.jpeg', category: 'makeup', caption: 'Face Glitter & Gems Studio' },
       { id: 'img-13', src: '/new_images/photo_13.jpeg', category: 'nails', caption: 'Luxury Nail Polish Selection' },
       { id: 'img-14', src: '/new_images/photo_14.jpeg', category: 'bus', caption: 'Candy Floss & Drinks Station' },
       { id: 'img-15', src: '/new_images/photo_15.jpeg', category: 'hair', caption: 'Hair Styling & Curling Setup' },
-      { id: 'img-16', src: '/new_images/photo_16.jpeg', category: 'bus', caption: 'VIP Party Arrival Setup' }
+      { id: 'img-16', src: '/new_images/photo_16.jpeg', category: 'bus', caption: 'VIP Party Arrival Setup' },
+      { id: 'img-17', src: '/new_images/photo_17.jpeg', category: 'bus', caption: 'Fun Games' }
     ]
   }
 };

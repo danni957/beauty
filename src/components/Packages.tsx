@@ -175,7 +175,7 @@ export const Packages: React.FC = () => {
               Every Party Always Includes:
             </h3>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-10">
               {(packages?.partyIncludes || []).map((inc, idx) => (
                 <div key={idx} className="bg-gray-900/80 dark:bg-[#1a111f] p-4 rounded-xl border border-gray-800 dark:border-gray-700 text-center">
                   <div className="text-bt-gold text-xl mb-2">
